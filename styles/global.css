@@ -158,8 +158,8 @@ h1, h2, h3, .notion-h-title {
 
 .custom-header-buttons {
   position: fixed !important; /* 还是固定定位，但这次是原生的 */
-  top: 20px !important;
-  right: 20px !important;
+  top: 16px !important;
+  right: 16px !important;
   z-index: 9999 !important;
   display: flex;
   align-items: center;
@@ -174,14 +174,14 @@ h1, h2, h3, .notion-h-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
   transition: transform 0.2s ease; /* 只过渡变形，取消背景色的延时过渡，反应更快 */
   color: var(--fg-color) !important; 
-  font-size: 20px;
+  font-size: 24px;
   
   /* --- 核心修复 --- */
   /* 1. 消除移动端点击时的默认灰色方形背景 */
