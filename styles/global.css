@@ -266,54 +266,54 @@ footer > div > div {
 }
 
 /* =========================================
-   CSO 审美精修：TOC 悬浮目录极净化
+   CSO 审美精修 V2：TOC 极致隐形版
    ========================================= */
 
 @media (min-width: 1200px) {
   
-  /* 1. 解决间距问题：增大与文章的距离 */
+  /* 1. 布局调整：保持与正文的呼吸感 */
   .notion-aside {
-    /* 之前是 20px，现在加大到 60px，创造“呼吸感” */
-    padding-left: 60px !important; 
+    padding-left: 120px !important; 
   }
 
-  /* 2. 暴力去除所有线条 (竖线 + 选中短线) */
-  .notion-table-of-contents-item,
-  .notion-table-of-contents-active-item {
-    border: none !important;      /* 去掉所有边框 */
-    border-left: none !important; /* 双重保险：去掉左侧竖线 */
+  /* 2. 隐藏 "TABLE OF CONTENTS" 这个标题 */
+  .notion-aside-table-of-contents-header {
+    display: none !important;
+    visibility: hidden !important;
   }
 
-  /* 3. 去除背景色 (灰色底块) */
-  .notion-table-of-contents-item:hover,
-  .notion-table-of-contents-active-item {
-    background: transparent !important;      /* 背景变透明 */
-    background-color: transparent !important;
-  }
-
-  /* 4. 重构交互反馈 (因为去掉了线和底色，我们用纯文字变化来提示) */
-  
-  /* 普通状态：灰色，低调 */
+  /* 3. 目录单项样式重构 */
   .notion-table-of-contents-item {
+    /* 间距压缩：上下只留 2px，非常紧凑 */
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    margin: 0 !important;
+    
+    /* 字体排版 */
+    line-height: 1.4 !important; /* 行高调小 */
+    font-size: 12px !important;  /* 字体稍微缩小一点点，更精致 */
+    
+    /* 视觉样式 */
     color: var(--fg-color) !important;
-    opacity: 0.4 !important; /* 默认让它淡一点，不抢正文风头 */
+    opacity: 0.4 !important;
+    border: none !important; /* 再次确保去线 */
     transition: all 0.2s ease !important;
   }
 
-  /* 悬停状态：稍微变黑，无底色 */
+  /* 4. 鼠标悬停交互 (去下划线) */
   .notion-table-of-contents-item:hover {
-    opacity: 0.8 !important;
-    text-decoration: underline !important; /*以此代替底色，加个下划线更优雅，或者删掉这行只要颜色变化 */
-    text-underline-offset: 4px;
-    text-decoration-color: rgba(128,128,128,0.3) !important;
+    background: transparent !important;
+    text-decoration: none !important; /* 关键：去掉下划线 */
+    opacity: 0.8 !important;          /* 只是变深一点，不做其他花哨动作 */
+    cursor: pointer !important;
   }
 
-  /* 选中状态：纯黑，加粗 */
+  /* 5. 选中状态交互 */
   .notion-table-of-contents-active-item {
-    opacity: 1 !important;
-    font-weight: 600 !important;
-    color: var(--fg-color) !important; 
-    /* 彻底去掉原来的色块 */
     background: transparent !important;
+    border: none !important;
+    font-weight: 600 !important;      /* 只是加粗 */
+    opacity: 1 !important;            /* 完全不透明 */
+    color: var(--fg-color) !important;
   }
 }
