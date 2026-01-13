@@ -26,6 +26,10 @@ export default siteConfig({
 
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
+  
+  // 【在这里插入这一行】强制关闭搜索
+  isSearchEnabled: false,
+  
   defaultPageIcon: null,
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
