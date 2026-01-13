@@ -151,3 +151,61 @@ h1, h2, h3, .notion-h-title {
   background: transparent !important;
   border: 1px solid rgba(128, 128, 128, 0.2);
 }
+
+/* =========================================
+   CSO 布局重构：Icon 上移 + 底部居中
+   ========================================= */
+
+/* 1. 乾坤大挪移：把深色模式切换按钮从底部“瞬移”到右上角 */
+/* 我们不改 HTML 结构，直接用 CSS 把它钉在窗口右上角 */
+footer button, 
+.notion-footer button {
+  position: fixed !important;   /* 强制脱离文档流，改为固定定位 */
+  top: 16px !important;         /* 距离顶部的高度，和左边标题对齐 */
+  right: 24px !important;       /* 距离右侧的距离，占据原来 Search 的位置 */
+  z-index: 9999 !important;     /* 层级设为最高，防止被其他内容遮挡 */
+  width: 32px !important;       /* 规范一下点击区域大小 */
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important; /* 去掉可能的背景色 */
+  border-radius: 50% !important;
+  transition: all 0.2s ease !important;
+}
+
+/* 鼠标悬停时的微交互 */
+footer button:hover,
+.notion-footer button:hover {
+  background-color: rgba(128, 128, 128, 0.1) !important;
+  transform: rotate(15deg); /* 稍微转动一下，增加趣味性 */
+}
+
+/* 2. 底部 Copyright 强制居中 */
+footer, 
+.notion-footer {
+  display: flex !important;
+  flex-direction: column !important; /* 垂直排列 */
+  justify-content: center !important;
+  align-items: center !important;    /* 水平居中 */
+  position: relative !important;
+  padding: 3rem 1rem !important;     /* 增加一点呼吸感 */
+  width: 100% !important;
+}
+
+/* 确保里面的文字容器也是居中的 */
+footer > div, 
+.notion-footer > div {
+  margin: 0 auto !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+/* 3. 移动端适配 (手机上稍微往里收一点) */
+@media (max-width: 640px) {
+  footer button, 
+  .notion-footer button {
+    right: 16px !important;
+    top: 14px !important;
+  }
+}
