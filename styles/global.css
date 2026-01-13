@@ -158,8 +158,8 @@ h1, h2, h3, .notion-h-title {
 
 .custom-header-buttons {
   position: fixed !important; /* 还是固定定位，但这次是原生的 */
-  top: 12px !important;
-  right: 12px !important;
+  top: 8px !important;
+  right: 8px !important;
   z-index: 9999 !important;
   display: flex;
   align-items: center;
