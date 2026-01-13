@@ -153,64 +153,42 @@ h1, h2, h3, .notion-h-title {
 }
 
 /* =========================================
-   CSO 终极修复：强制按钮上移
+   CSO 架构重构：顶部独立按钮样式
    ========================================= */
 
-/* 1. 针对所有可能的 Footer 按钮进行暴力定位 */
-footer button,
-.notion-footer button,
-div[class*="footer"] button {
-  /* 核心：固定定位 */
-  position: fixed !important;
-  
-  /* 位置：强制锁定右上角 */
+.custom-header-buttons {
+  position: fixed !important; /* 还是固定定位，但这次是原生的 */
   top: 20px !important;
   right: 20px !important;
-  
-  /* 重置：防止原本的 bottom/left 属性干扰 */
-  bottom: auto !important;
-  left: auto !important;
-  transform: none !important;
-  margin: 0 !important;
-  
-  /* 层级：置顶 */
   z-index: 9999 !important;
-  
-  /* 样式：美化一下 */
-  background: var(--bg-color) !important; /* 跟随背景色 */
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important; /* 加一点阴影让它浮起来 */
-  border-radius: 50% !important;
-  width: 36px !important;
-  height: 36px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 2. 鼠标悬停效果 */
-footer button:hover,
-.notion-footer button:hover {
-  background: rgba(128, 128, 128, 0.1) !important;
-  transform: scale(1.1) !important;
+.toggle-dark-mode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--fg-color) !important; 
+  font-size: 20px; /* 图标大小 */
 }
 
-/* 3. 底部文字布局修正 */
-footer,
-.notion-footer {
-  position: relative !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding-bottom: 40px !important;
+.toggle-dark-mode:hover {
+  background-color: rgba(128, 128, 128, 0.1);
+  transform: rotate(15deg);
 }
 
-/* 4. 隐藏底部原来按钮留下的“坑” */
-footer > div > div {
-  display: flex !important;
-  justify-content: center !important;
+/* 之前说的底部版权沉底样式，如果还没加，建议也加上 */
+footer, .notion-footer {
+  padding-bottom: 12px !important; 
+  padding-top: 60px !important;
 }
 
 /* =========================================
