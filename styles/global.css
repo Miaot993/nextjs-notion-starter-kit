@@ -114,3 +114,20 @@ h1.notion-h-title {
 footer {
   display: none !important;
 }
+
+/* =========================================
+   CSO 修正补丁：强制移除 GitHub 角标
+   ========================================= */
+
+/* 通过属性选择器精准打击，不误伤其他链接 */
+a[aria-label="View source on GitHub"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 以防万一，针对特定类名的双重保险 */
+.github-corner {
+  display: none !important;
+}
