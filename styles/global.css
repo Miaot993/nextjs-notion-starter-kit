@@ -354,3 +354,23 @@ footer > div,
     color: var(--fg-color) !important;
   }
 }
+
+/* =========================================
+   CSO 体验优化：手机端阅读呼吸感 (Side Padding)
+   ========================================= */
+
+@media (max-width: 640px) {
+  .notion-page {
+    /* 核心调整：左右间距从默认的窄边距增加到 24px */
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    
+    /* 同时也稍微调整一下上下间距，避免顶部太顶 */
+    padding-top: 20px !important;
+  }
+
+  /* 针对列表、引用块等缩进元素的微调，防止它们缩得太里面 */
+  .notion-list, .notion-quote {
+    padding-left: 20px !important;
+  }
+}
