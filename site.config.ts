@@ -9,12 +9,12 @@ export default siteConfig({
   rootNotionSpaceId: null,
 
   // basic site info (required)
-  name: 'Next.js Notion Starter Kit',
-  domain: 'nextjs-notion-starter-kit.transitivebullsh.it',
-  author: 'Travis Fischer',
+  name: 'PPT AI 知识库',
+  domain: 'aipptbox.top',
+  author: 'youzhaPPT',
 
   // open graph metadata (optional)
-  description: 'Example Next.js Notion Starter Kit Site',
+  description: 'PPT AI 知识库与数字资产站。让 AI 成为你的核心资产',
 
   // social usernames (optional)
   twitter: 'transitive_bs',
