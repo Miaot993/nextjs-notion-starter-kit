@@ -34,12 +34,8 @@ export function FooterImpl() {
   }, [])
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.copyright}>
-        Copyright {currentYear} {config.author}
-      </div>
-
-      <div className={styles.settings}>
+    <>
+          <div className={styles.settings}>
         {hasMounted && (
           <a
             className={styles.toggleDarkMode}
@@ -52,6 +48,12 @@ export function FooterImpl() {
           </a>
         )}
       </div>
+    <footer className={styles.footer}>
+      <div className={styles.copyright}>
+        Copyright {currentYear} {config.author}
+      </div>
+
+  
 
       <div className={styles.social}>
         {config.twitter && (
@@ -138,6 +140,7 @@ export function FooterImpl() {
         )}
       </div>
     </footer>
+    </>
   )
 }
 
