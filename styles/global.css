@@ -264,3 +264,56 @@ footer > div > div {
     font-weight: 600 !important;
   }
 }
+
+/* =========================================
+   CSO 审美精修：TOC 悬浮目录极净化
+   ========================================= */
+
+@media (min-width: 1200px) {
+  
+  /* 1. 解决间距问题：增大与文章的距离 */
+  .notion-aside {
+    /* 之前是 20px，现在加大到 60px，创造“呼吸感” */
+    padding-left: 60px !important; 
+  }
+
+  /* 2. 暴力去除所有线条 (竖线 + 选中短线) */
+  .notion-table-of-contents-item,
+  .notion-table-of-contents-active-item {
+    border: none !important;      /* 去掉所有边框 */
+    border-left: none !important; /* 双重保险：去掉左侧竖线 */
+  }
+
+  /* 3. 去除背景色 (灰色底块) */
+  .notion-table-of-contents-item:hover,
+  .notion-table-of-contents-active-item {
+    background: transparent !important;      /* 背景变透明 */
+    background-color: transparent !important;
+  }
+
+  /* 4. 重构交互反馈 (因为去掉了线和底色，我们用纯文字变化来提示) */
+  
+  /* 普通状态：灰色，低调 */
+  .notion-table-of-contents-item {
+    color: var(--fg-color) !important;
+    opacity: 0.4 !important; /* 默认让它淡一点，不抢正文风头 */
+    transition: all 0.2s ease !important;
+  }
+
+  /* 悬停状态：稍微变黑，无底色 */
+  .notion-table-of-contents-item:hover {
+    opacity: 0.8 !important;
+    text-decoration: underline !important; /*以此代替底色，加个下划线更优雅，或者删掉这行只要颜色变化 */
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(128,128,128,0.3) !important;
+  }
+
+  /* 选中状态：纯黑，加粗 */
+  .notion-table-of-contents-active-item {
+    opacity: 1 !important;
+    font-weight: 600 !important;
+    color: var(--fg-color) !important; 
+    /* 彻底去掉原来的色块 */
+    background: transparent !important;
+  }
+}
