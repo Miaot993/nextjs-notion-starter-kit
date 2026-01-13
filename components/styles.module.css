@@ -91,6 +91,15 @@
   color: #2795e9;
 }
 
+.toggleDarkMode {
+/* 核心：固定定位 */
+  position: fixed !important;
+  
+  /* 位置：强制锁定右上角 */
+  top: 20px !important;
+  right: 20px !important;
+}
+
 .twitter:hover {
   color: #2795e9;
 }
