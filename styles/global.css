@@ -62,60 +62,6 @@ body {
 }
 
 /* =========================================
-   CSO 定制皮肤：Linear 极简风 (复制到 global.css 底部)
-   ========================================= */
-
-/* 1. 字体优化：让字体更紧凑，更有质感 */
-:root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-
-/* 2. 去除 Notion 默认的廉价感背景，增加高级灰 */
-.notion-app { 
-  background-color: #ffffff !important; 
-}
-.dark-mode .notion-app {
-  background-color: #0B0C0E !important; /* 深邃黑，不是纯黑 */
-}
-
-/* 3. 导航栏 (Navbar) 磨砂玻璃效果增强 */
-.notion-navbar {
-  background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: saturate(180%) blur(16px) !important;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-.dark-mode .notion-navbar {
-  background: rgba(11, 12, 14, 0.8) !important;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-/* 4. 隐藏页面顶部那个巨大的 Cover 图片 (如果你觉得太占地儿) */
-/* 如果你想保留封面图，请把下面这三行删掉 */
-.notion-page-cover-wrapper {
-  display: none !important; 
-}
-
-/* 5. 调整标题字距，显得更专业 */
-h1.notion-h-title {
-  letter-spacing: -0.03em !important; /* 负字距是高级感的秘诀 */
-  font-weight: 700 !important;
-}
-
-/* 6. 让引用块 (Quote) 看起来像个设计组件 */
-.notion-quote {
-  border-left: 3px solid #5E6AD2 !important; /* 品牌色 */
-  background: rgba(94, 106, 210, 0.05);
-  padding: 1rem !important;
-  border-radius: 6px;
-  font-style: normal !important;
-}
-
-/* 7. 隐藏页脚的 "Built with Next.js" (如果你想显得完全独立) */
-footer {
-  display: none !important;
-}
-
-/* =========================================
    CSO 修正补丁：强制移除 GitHub 角标
    ========================================= */
 
@@ -130,4 +76,78 @@ a[aria-label="View source on GitHub"] {
 /* 以防万一，针对特定类名的双重保险 */
 .github-corner {
   display: none !important;
+}
+
+/* =========================================
+   CSO 定制皮肤：Medium 杂志风 (支持亮暗切换)
+   ========================================= */
+
+/* 1. 定义字体栈：核心在于标题的衬线体 */
+:root {
+  /* 试图调用系统自带的高级衬线体，类似 Medium 的 Noe Display */
+  --font-serif: "Merriweather", "Georgia", "Cambria", "Times New Roman", serif;
+  /* 正文保持干净的无衬线体 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* 2. 亮色模式 (Light Mode) - 经典的纸质阅读感 */
+:root {
+  --bg-color: #ffffff !important;
+  --fg-color: rgba(0, 0, 0, 0.84) !important; /* Medium 经典的深灰字，不是纯黑 */
+  --notion-red: #E24F3D !important; /* 强调色改得更优雅 */
+  --notion-blue: #2B6CB0 !important;
+}
+
+/* 3. 暗色模式 (Dark Mode) - 护眼的深邃黑 */
+.dark-mode {
+  --bg-color: #121212 !important; /* Medium 的暗色底是 #121212 */
+  --fg-color: rgba(255, 255, 255, 0.84) !important; /* 柔和白 */
+  --notion-header-background: #121212 !important;
+}
+
+/* 4. 全局背景应用 */
+body, .notion-app, .notion-viewport {
+  background-color: var(--bg-color) !important;
+  color: var(--fg-color) !important;
+  font-family: var(--font-sans) !important; /* 正文默认无衬线 */
+}
+
+/* 5. 灵魂注入：所有标题强制使用衬线体 */
+h1, h2, h3, .notion-h-title {
+  font-family: var(--font-serif) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important; /* 紧凑字距增加高级感 */
+  line-height: 1.2 !important;
+}
+
+/* 6. 导航栏处理：极简融合 */
+.notion-navbar {
+  background: var(--bg-color) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important; /* 极细的分割线 */
+  box-shadow: none !important; /* 去掉阴影 */
+}
+.dark-mode .notion-navbar {
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* 7. 引用块 (Quote) - 类似 Medium 的极简左侧竖线 */
+.notion-quote {
+  border-left: 3px solid var(--fg-color) !important;
+  padding-left: 1.2rem !important;
+  font-style: italic;
+  font-family: var(--font-serif) !important; /* 引用也用衬线体，更有味道 */
+  font-size: 1.1em !important;
+  background: transparent !important; /* 去掉背景色 */
+}
+
+/* 8. 封面图调整 */
+.notion-page-cover {
+  max-height: 30vh !important; /* 不要让封面图大得吓人 */
+  opacity: 1 !important;
+}
+
+/* 9. 去除一些默认的 Notion 块背景色，保持干净 */
+.notion-callout {
+  background: transparent !important;
+  border: 1px solid rgba(128, 128, 128, 0.2);
 }
