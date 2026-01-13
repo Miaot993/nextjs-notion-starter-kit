@@ -166,6 +166,10 @@ h1, h2, h3, .notion-h-title {
   justify-content: center;
 }
 
+/* =========================================
+   CSO 体验优化：移动端触控手感调优
+   ========================================= */
+
 .toggle-dark-mode {
   display: flex;
   align-items: center;
@@ -175,14 +179,37 @@ h1, h2, h3, .notion-h-title {
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease; /* 只过渡变形，取消背景色的延时过渡，反应更快 */
   color: var(--fg-color) !important; 
-  font-size: 20px; /* 图标大小 */
+  font-size: 20px;
+  
+  /* --- 核心修复 --- */
+  /* 1. 消除移动端点击时的默认灰色方形背景 */
+  -webkit-tap-highlight-color: transparent !important;
+  /* 2. 消除点击后的聚焦边框 */
+  outline: none !important;
+  /* 3. 禁止用户长按选中图标 */
+  user-select: none !important;
 }
 
-.toggle-dark-mode:hover {
-  background-color: rgba(128, 128, 128, 0.1);
-  transform: rotate(15deg);
+/* CSO 高级技巧：区分鼠标和手指
+   只有在支持“悬停”的设备（电脑）上，才显示灰色背景和旋转
+   防止手机上点击后背景色“卡住”不消失
+*/
+@media (hover: hover) {
+  .toggle-dark-mode:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+    transform: rotate(15deg);
+  }
+}
+
+/* 移动端专属交互：
+   手指按下时，图标稍微缩小一点点，产生“按压感”
+   (Active 状态比 Hover 更适合手机)
+*/
+.toggle-dark-mode:active {
+  transform: scale(0.92);
+  background-color: transparent !important; /* 确保按下时没有背景色干扰 */
 }
 
 /* 之前说的底部版权沉底样式，如果还没加，建议也加上 */
