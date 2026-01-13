@@ -226,13 +226,22 @@ export function NotionPage({
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]!]?.value
 
-  // const isRootPage =
-  //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
-  const isBlogPost =
+const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
 
-  const showTableOfContents = !!isBlogPost
-  const minTableOfContentsItems = 3
+  // ==================================================
+  // CSO 暴力解锁补丁：强制显示目录
+  // ==================================================
+  
+  // 原代码是 !!isBlogPost，只允许博客显示。
+  // 我们改成 true，意味着：不管是什么页面，统统显示目录！
+  const showTableOfContents = true 
+
+  // 原代码是 3，意味着标题少于3个就不显示。
+  // 我们改成 1，意味着只要有1个标题就给我显示出来！
+  const minTableOfContentsItems = 1
+  
+  // ==================================================
 
   const pageAside = React.useMemo(
     () => (
