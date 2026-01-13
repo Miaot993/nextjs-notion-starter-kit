@@ -290,8 +290,8 @@ footer > div > div {
     margin: 0 !important;
     
     /* 字体排版 */
-    line-height: 1.4 !important; /* 行高调小 */
-    font-size: 12px !important;  /* 字体稍微缩小一点点，更精致 */
+    line-height: 1.6 !important; /* 行高调小 */
+    font-size: 13px !important;  /* 字体稍微缩小一点点，更精致 */
     
     /* 视觉样式 */
     color: var(--fg-color) !important;
