@@ -16,7 +16,9 @@ export function FooterImpl() {
   return (
     <footer className={styles.footer}>
       <div className={styles.copyright}>
-        Copyright {currentYear} {config.author}
+        {/* 这里的写法对应你想要的效果：Copyright © youzaiPPT */}
+        {/* 注意：我去掉了 {currentYear}，因为你的要求里没有年份 */}
+        Copyright © {config.author}
       </div>
 
       <div className={styles.social}>
