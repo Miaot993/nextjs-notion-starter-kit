@@ -15,6 +15,11 @@ import {
 import { EmbeddedTweet, TweetNotFound, TweetSkeleton } from 'react-tweet'
 import { useSearchParam } from 'react-use'
 
+// --- CSO 添加: 引入亮暗模式图标 ---
+import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
+import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+// -------------------------------
+
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import { mapImageUrl } from '@/lib/map-image-url'
@@ -213,7 +218,9 @@ export function NotionPage({
   // lite mode is for oembed
   const isLiteMode = lite === 'true'
 
-  const { isDarkMode } = useDarkMode()
+  // --- CSO 修改: 获取 toggleDarkMode ---
+  const { isDarkMode, toggleDarkMode } = useDarkMode()
+  // -----------------------------------
 
   const siteMapPageUrl = React.useMemo(() => {
     const params: any = {}
@@ -226,7 +233,7 @@ export function NotionPage({
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]!]?.value
 
-const isBlogPost =
+  const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
 
   // ==================================================
@@ -308,6 +315,19 @@ const isBlogPost =
         url={canonicalPageUrl}
         isBlogPost={isBlogPost}
       />
+
+      {/* ======================= CSO植入开始 ======================= */}
+      {/* 独立的顶部亮暗切换按钮，对应 global.css 中的 .custom-header-buttons */}
+      <div className="custom-header-buttons">
+        <a
+          className="toggle-dark-mode"
+          onClick={toggleDarkMode}
+          title="Toggle dark mode"
+        >
+          {isDarkMode ? <IoMoonSharp /> : <IoSunnyOutline />}
+        </a>
+      </div>
+      {/* ======================= CSO植入结束 ======================= */}
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
       {isDarkMode && <BodyClassName className='dark-mode' />}
