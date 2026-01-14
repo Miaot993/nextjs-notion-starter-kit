@@ -298,25 +298,26 @@ export function NotionPage({
     config.description
 
   // ==============================================================
-  // CSO 核心功能：VIP 多页面锁定逻辑 (升级版)
+  // CSO 核心功能：VIP 多级锁定逻辑 (终极版)
   // ==============================================================
   
-  // 1. 获取当前页面的 ID (去掉中划线)
-  // ✅ 这种写法最安全，即便 keys[0] 是空的也不会报错
+  // 1. 获取当前页面 ID 和 父级 ID
   const currentBlockId = (keys[0] || '').replace(/-/g, '')
+  // @ts-ignore
+  const parentId = (block?.parent_id || '').replace(/-/g, '')
 
-  // 2. 【关键修改】定义 VIP 页面 ID 列表 (数组模式)
-  // 以后有新的 VIP 页面，直接在这里面加一行即可，记得用引号包起来，逗号分隔
+  // 2. VIP 页面 ID 列表 (这里只填【最顶层】的 VIP 页面 ID 即可)
   const LOCKED_PAGE_IDS = [
-    '2e8a2b748e4d80e58739d25aa9a83220', // VIP页面1：AI 实战课
-    '2e8a2b748e4d80faa623eea08adf2f66', // 示例：VIP页面2
-    // '这里填第三个页面的ID',            // 示例：VIP页面3
+    '2e8a2b748e4d80e58739d25aa9a83220', // VIP页面1
+    '2e8a2b748e4d80faa623eea08adf2f66', // VIP页面2
   ]
 
-  // 3. 判断：只要当前页面 ID 在列表里，就锁定
-  const shouldLock = LOCKED_PAGE_IDS.includes(currentBlockId)
+  // 3. 智能判断：
+  // 规则A: 如果我自己是 VIP，锁住。
+  // 规则B: 如果我的爸爸是 VIP，我也锁住。(这样子页面就自动安全了)
+  const shouldLock = LOCKED_PAGE_IDS.includes(currentBlockId) || LOCKED_PAGE_IDS.includes(parentId)
 
-  // 4. 将原本的页面 JSX 封装到一个变量里
+  // 4. 封装内容
   const pageContent = (
     <>
       <PageHead
