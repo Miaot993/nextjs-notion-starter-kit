@@ -276,7 +276,7 @@ export function NotionPage({
   // 以后有新的 VIP 页面，直接在这里面加一行即可，记得用引号包起来，逗号分隔
   const LOCKED_PAGE_IDS = [
     '2e8a2b748e4d80e58739d25aa9a83220', // VIP页面1：AI 实战课
-    // '这里填第二个页面的ID',            // 示例：VIP页面2
+    '2e8a2b748e4d80faa623eea08adf2f66', // 示例：VIP页面2
     // '这里填第三个页面的ID',            // 示例：VIP页面3
   ]
 
