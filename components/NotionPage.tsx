@@ -249,7 +249,7 @@ export function NotionPage({
   // 原代码是 3，意味着标题少于3个就不显示。
   // 我们改成 1，意味着只要有1个标题就给我显示出来！
   const minTableOfContentsItems = 1
-  
+   
   // ==================================================
 
   const pageAside = React.useMemo(
@@ -306,7 +306,21 @@ export function NotionPage({
     getPageProperty<string>('Description', block, recordMap) ||
     config.description
 
-  return (
+  // ==============================================================
+  // CSO 核心功能：VIP 页面锁定逻辑
+  // ==============================================================
+  
+  // 1. 定义你的 VIP 页面 ID (去掉中划线的纯32位ID)
+  const LOCKED_PAGE_ID = '2e8a2b748e4d80e58739d25aa9a83220'
+  
+  // 2. 获取当前页面的 ID (keys[0] 在上面已经定义过了)
+  const currentBlockId = keys[0]?.replaceAll('-', '')
+
+  // 3. 判断当前是否需要锁定
+  const shouldLock = currentBlockId === LOCKED_PAGE_ID
+
+  // 4. 将原本的页面 JSX 封装到一个变量里
+  const pageContent = (
     <>
       <PageHead
         pageId={pageId}
@@ -362,4 +376,16 @@ export function NotionPage({
       <GitHubShareButton />
     </>
   )
+
+  // 5. 最终渲染：如果有锁，加上PasswordGate；否则直接显示
+  if (shouldLock) {
+    return (
+      <PasswordGate>
+        {pageContent}
+      </PasswordGate>
+    )
+  }
+
+  return pageContent
+  // ==============================================================
 }
