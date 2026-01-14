@@ -66,20 +66,25 @@ export const PasswordGate = ({ children }: PasswordGateProps) => {
           margin-bottom: 2rem;
           max-width: 400px;
         }
+        /* 找到 input { ... } 替换成下面这些： */
         input {
           padding: 12px 16px;
           border-radius: 8px;
-          border: 1px solid var(--accents-2);
-          background: var(--bg-color);
+          border: 1px solid #ccc;  /* 关键修改：加深边框颜色 */
+          background: rgba(0, 0, 0, 0.03); /* 关键修改：增加微弱底色 */
           color: var(--fg-color);
           font-size: 1rem;
           margin-right: 8px;
           outline: none;
           transition: all 0.2s;
+          min-width: 200px; /* 让输入框稍微宽一点 */
         }
+
+        /* 建议同时更新 input:focus 让点击时有高亮 */
         input:focus {
-          border-color: var(--notion-blue);
-          box-shadow: 0 0 0 2px rgba(43, 108, 176, 0.2);
+          border-color: #2e86de; /* 点击变成 Notion 蓝 */
+          background: var(--bg-color);
+          box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.2); /* 加一点光晕 */
         }
         button {
           padding: 12px 24px;
