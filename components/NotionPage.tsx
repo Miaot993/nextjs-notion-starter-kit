@@ -270,7 +270,7 @@ export function NotionPage({
   // ==============================================================
   
   // 1. 获取当前页面的 ID (去掉中划线)
-  const currentBlockId = keys[0]?.replaceAll('-', '')
+  const currentBlockId = keys[0]?.replace(/-/g, '')
 
   // 2. 【关键修改】定义 VIP 页面 ID 列表 (数组模式)
   // 以后有新的 VIP 页面，直接在这里面加一行即可，记得用引号包起来，逗号分隔
