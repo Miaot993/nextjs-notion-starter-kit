@@ -6,7 +6,7 @@ interface PasswordGateProps {
 
 export const PasswordGate = ({ children }: PasswordGateProps) => {
   // 这里设置你的密码！(比如设置成 'vip888')
-  const CORRECT_PASSWORD = 'vip888' 
+  const CORRECT_PASSWORD = 'ai888vip' 
   
   // 这里设置 LocalStorage 的钥匙名，防止用户刷新页面就要重输
   const STORAGE_KEY = 'aippt_vip_access'
