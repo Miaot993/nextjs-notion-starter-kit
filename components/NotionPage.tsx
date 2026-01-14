@@ -44,69 +44,37 @@ import styles from './styles.module.css'
 
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
-    // add / remove any prism syntaxes here
     await Promise.allSettled([
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-markup-templating.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-markup.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-bash.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-c.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-cpp.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-csharp.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-docker.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-java.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-js-templates.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-coffeescript.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-diff.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-git.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-go.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-graphql.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-handlebars.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-less.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-makefile.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-markdown.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-objectivec.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-ocaml.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-python.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-reason.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-rust.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-sass.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-scss.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-solidity.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-sql.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-stylus.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-swift.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-wasm.js'),
-      // @ts-expect-error Ignore prisma types
       import('prismjs/components/prism-yaml.js')
     ])
     return m.Code
@@ -217,7 +185,6 @@ export function NotionPage({
     []
   )
 
-  // lite mode is for oembed
   const isLiteMode = lite === 'true'
 
   // --- CSO 修改: 获取 toggleDarkMode ---
@@ -241,15 +208,8 @@ export function NotionPage({
   // ==================================================
   // CSO 暴力解锁补丁：强制显示目录
   // ==================================================
-  
-  // 原代码是 !!isBlogPost，只允许博客显示。
-  // 我们改成 true，意味着：不管是什么页面，统统显示目录！
   const showTableOfContents = true 
-
-  // 原代码是 3，意味着标题少于3个就不显示。
-  // 我们改成 1，意味着只要有1个标题就给我显示出来！
   const minTableOfContentsItems = 1
-   
   // ==================================================
 
   const pageAside = React.useMemo(
@@ -284,7 +244,6 @@ export function NotionPage({
   })
 
   if (!config.isServer) {
-    // add important objects to the window global for easy debugging
     const g = window as any
     g.pageId = pageId
     g.recordMap = recordMap
@@ -307,17 +266,22 @@ export function NotionPage({
     config.description
 
   // ==============================================================
-  // CSO 核心功能：VIP 页面锁定逻辑
+  // CSO 核心功能：VIP 多页面锁定逻辑 (升级版)
   // ==============================================================
   
-  // 1. 定义你的 VIP 页面 ID (去掉中划线的纯32位ID)
-  const LOCKED_PAGE_ID = '2e8a2b748e4d80e58739d25aa9a83220'
-  
-  // 2. 获取当前页面的 ID (keys[0] 在上面已经定义过了)
+  // 1. 获取当前页面的 ID (去掉中划线)
   const currentBlockId = keys[0]?.replaceAll('-', '')
 
-  // 3. 判断当前是否需要锁定
-  const shouldLock = currentBlockId === LOCKED_PAGE_ID
+  // 2. 【关键修改】定义 VIP 页面 ID 列表 (数组模式)
+  // 以后有新的 VIP 页面，直接在这里面加一行即可，记得用引号包起来，逗号分隔
+  const LOCKED_PAGE_IDS = [
+    '2e8a2b748e4d80e58739d25aa9a83220', // VIP页面1：AI 实战课
+    // '这里填第二个页面的ID',            // 示例：VIP页面2
+    // '这里填第三个页面的ID',            // 示例：VIP页面3
+  ]
+
+  // 3. 判断：只要当前页面 ID 在列表里，就锁定
+  const shouldLock = LOCKED_PAGE_IDS.includes(currentBlockId)
 
   // 4. 将原本的页面 JSX 封装到一个变量里
   const pageContent = (
@@ -333,7 +297,6 @@ export function NotionPage({
       />
 
       {/* ======================= CSO植入开始 ======================= */}
-      {/* 独立的顶部亮暗切换按钮，对应 global.css 中的 .custom-header-buttons */}
       <div className="custom-header-buttons">
         <a
           className="toggle-dark-mode"
@@ -377,7 +340,7 @@ export function NotionPage({
     </>
   )
 
-  // 5. 最终渲染：如果有锁，加上PasswordGate；否则直接显示
+  // 5. 最终渲染
   if (shouldLock) {
     return (
       <PasswordGate>
