@@ -373,7 +373,7 @@ export function NotionPage({
       <GitHubShareButton />
       
       {/* =========================================================== */}
-      {/* CSO 终极样式修正：强制扁平化、小圆角、去投影 */}
+      {/* CSO 终极样式修正：强制扁平化、小圆角 (4px)、去投影 */}
       {/* =========================================================== */}
       <style jsx global>{`
         /* 1. 顶部大图 (Hero) - 强制小圆角、去投影 */
@@ -397,3 +397,35 @@ export function NotionPage({
           border: 1px solid rgba(135, 131, 120, 0.15) !important; /* 加细边框 */
           background: transparent !important;
         }
+        
+        /* 3. 卡片悬停效果 - 依然无投影 */
+        .notion-gallery-card:hover {
+          box-shadow: none !important;
+          background: rgba(128, 128, 128, 0.04) !important;
+          transform: translateY(-2px);
+          border-color: rgba(135, 131, 120, 0.3) !important;
+        }
+
+        /* 4. 暗黑模式适配 */
+        [data-theme="dark"] .notion-gallery-card {
+          border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        [data-theme="dark"] .notion-gallery-card:hover {
+          background: rgba(255, 255, 255, 0.05) !important;
+        }
+      `}</style>
+    </>
+  )
+
+  // 5. 最终渲染
+  if (shouldLock) {
+    return (
+      <PasswordGate>
+        {pageContent}
+      </PasswordGate>
+    )
+  }
+
+  return pageContent
+  // ==============================================================
+}
