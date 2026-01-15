@@ -1,5 +1,5 @@
 /* =================================================================
-   CDO 终极样式：博客列表 (正文图片版)
+   CDO 终极修复：博客列表 (Page Cover 专用版)
    ================================================================= */
 
 :root {
@@ -31,7 +31,7 @@ body .notion-gallery-grid {
     gap: 0 !important;
     border-top: none !important;
     padding-top: 20px !important;
-    max-width: 800px !important; /* 限制宽度 */
+    max-width: 800px !important;
     margin: 0 auto !important;
 }
 
@@ -46,7 +46,6 @@ body .notion-gallery-grid a {
     height: auto !important;
     min-height: 140px !important;
     
-    /* 样式清空 */
     box-shadow: none !important;
     border: none !important;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
@@ -58,49 +57,36 @@ body .notion-gallery-grid a {
 }
 
 /* =========================================================
-   4. 右侧图片容器 (适配正文图片)
+   4. 右侧图片容器 (Targeting Cover)
    ========================================================= */
 
-/* 选中卡片里的第一个 DIV (也就是图片容器) */
+/* 选中第一个 DIV (在 Page Cover 模式下，这就是封面容器) */
 body .notion-gallery-grid a > div:first-child {
-    width: 200px !important;   /* 🔒 锁死宽度 */
-    height: 134px !important;  /* 🔒 锁死高度 */
+    width: 200px !important;
+    height: 134px !important;
     
     flex-shrink: 0 !important;
-    margin-left: 32px !important; 
+    margin-left: 32px !important;
     margin-bottom: 0 !important;
     
     border-radius: 6px !important;
     overflow: hidden !important;
     position: relative !important;
     
-    /* 🌟 关键修改：去掉白色背景和阴影，防止无图时出现白框 */
-    background: transparent !important; 
-    box-shadow: none !important;
+    /* 给没有封面的文章一个默认背景色，防止白框 */
+    background: #f7f7f5 !important; 
 }
 
-/* 针对正文预览图片 (Page Content Image) */
+/* 确保图片显示 */
 body .notion-gallery-grid a img {
+    display: block !important;
     height: 100% !important;
     width: 100% !important;
-    object-fit: cover !important; /* 强制裁剪填满 */
+    object-fit: cover !important;
     position: absolute !important;
     top: 0; left: 0;
     opacity: 1 !important;
-}
-
-/* 如果 Notion 返回的是纯文本预览（没有图），试图隐藏它，保持布局整洁 */
-/* 注意：这可能会让右边空着，但比显示一堆乱字好 */
-body .notion-gallery-grid a > div:first-child:not(:has(img)) {
-    /* 只有当里面没有 img 标签时，才显示淡灰色占位块 */
-    background: rgba(0,0,0,0.03) !important; 
-}
-/* 给无图的方块加个默认图标 (可选) */
-body .notion-gallery-grid a > div:first-child:not(:has(img))::after {
-    content: "No Image";
-    display: flex; justify-content: center; align-items: center;
-    width: 100%; height: 100%;
-    color: #ccc; font-size: 12px;
+    visibility: visible !important;
 }
 
 /* =========================================================
@@ -131,7 +117,6 @@ body .notion-gallery-grid .notion-property-text {
     color: rgba(0,0,0,0.6) !important;
     line-height: 1.5 !important;
     margin-bottom: 12px !important;
-    
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
