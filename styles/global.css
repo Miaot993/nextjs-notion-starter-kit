@@ -236,23 +236,32 @@ body .notion-table-of-contents-item a { text-decoration: none !important; color:
 body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; }
 
 /* =========================================================
-   修正：面包屑文字过长截断 (针对 Next.js Notion Starter Kit)
+   修正：顶部面包屑过长自动变成省略号 (最终修正版)
    ========================================================= */
 
-/* 锁定导航栏里的标题文字 */
-body .notion-nav-header .notion-page-title {
-    max-width: 160px !important;   /* 电脑端最大宽度，超过就变... */
+/* 1. 锁定我们刚加的壳子里的面包屑元素 */
+/* 注意：这里改成了 .notion-nav-breadcrumb，这是库的真实类名 */
+.breadcrumbs-limit .notion-nav-breadcrumb {
+    max-width: 140px !important;   /* ⚡️ 在这里控制电脑端字数长度 */
+    
+    display: inline-block !important; /* 必须加这个，否则 max-width 无效 */
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    display: inline-block !important;
-    vertical-align: bottom !important; /* 保持文字底对齐 */
+    vertical-align: bottom !important;
+    margin-bottom: 0 !important;
 }
 
-/* 手机端更加严格，防止挤坏排版 */
+/* 2. 也是为了防止里面的 span 撑开宽度，强制让里面的文字也服从 */
+.breadcrumbs-limit .notion-nav-breadcrumb span {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* 3. 手机端更加严格 */
 @media (max-width: 768px) {
-    body .notion-nav-header .notion-page-title {
-        max-width: 100px !important; /* 手机端只留很短 */
-        font-size: 14px !important;  /* 手机端字体稍微改小一点点 */
+    .breadcrumbs-limit .notion-nav-breadcrumb {
+        max-width: 80px !important; /* 手机上只允许显示 4-5 个字 */
     }
 }
