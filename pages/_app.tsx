@@ -1,15 +1,26 @@
+// ==========================================
+// 1. 先引入第三方库样式 (由它们打底)
+// ==========================================
+// core styles shared by all of react-notion-x (required)
+import 'react-notion-x/src/styles.css' 
+
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css'
+
 // used for code syntax highlighting (optional)
 import 'prismjs/themes/prism-coy.css'
-// core styles shared by all of react-notion-x (required)
-import 'react-notion-x/src/styles.css'
+
+
+// ==========================================
+// 2. 再引入你的自定义样式 (权重最高，覆盖上面的)
+// ==========================================
 // global styles shared across the entire site
+// ⚠️ 注意：把你刚才写的 Hero 和 Gallery 覆盖代码放在这个文件里
 import 'styles/global.css'
-// this might be better for dark mode
-// import 'prismjs/themes/prism-okaidia.css'
+
 // global style overrides for notion
 import 'styles/notion.css'
+
 // global style overrides for prism theme (optional)
 import 'styles/prism-theme.css'
 
