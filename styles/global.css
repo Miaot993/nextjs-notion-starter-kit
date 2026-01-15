@@ -45,8 +45,8 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .custom-header-buttons {
     position: fixed !important; 
     /* 1. 在这里修改位置 */
-    top: 6px;    
-    right: 6px; 
+    top: 7px;    
+    right: 7px; 
     
     z-index: 9999 !important;
     display: flex; 
@@ -234,3 +234,22 @@ body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left:
 body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
 body .notion-table-of-contents-item a { text-decoration: none !important; color: var(--fg-color-1) !important; }
 body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; }
+
+/* =========================================================
+   6. 面包屑文字超长自动变省略号
+   ========================================================= */
+.notion-nav-breadcrumb {
+    max-width: 200px; /* 限制最大宽度，你可以改这个数值 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+/* 手机端可以让它更短一点 */
+@media (max-width: 768px) {
+    .notion-nav-breadcrumb {
+        max-width: 100px; /* 手机上限制更严格 */
+    }
+}
