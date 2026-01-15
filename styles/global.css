@@ -1,451 +1,138 @@
-* {
-  box-sizing: border-box;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-body,
-html {
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  --notion-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', 'Noto Sans', sans-serif;
-  font-family: var(--notion-font);
-  overflow-x: hidden;
-}
-
-.static-tweet blockquote {
-  margin: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-}
-
-.static-tweet-emoji {
-  height: 1.2em !important;
-  width: 1.2em !important;
-}
-
-.searchInput {
-  color: var(--fg-color);
-  caret-color: var(--fg-color);
-}
-
-::-webkit-scrollbar
-{
-  width: 5px;
-  height: 5px;
-  background-color: #F5F5F5;
-  background-color: var(--bg-color-1);
-}
-
-::-webkit-scrollbar-thumb
-{
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #555;
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: var(--fg-color-1);
-}
-
-::-webkit-scrollbar-track {           
-    background-color: var(--bg-color);
-}
-
-/* =========================================
-   CSO 修正补丁：强制移除 GitHub 角标
-   ========================================= */
-
-/* 通过属性选择器精准打击，不误伤其他链接 */
-a[aria-label="View source on GitHub"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 以防万一，针对特定类名的双重保险 */
-.github-corner {
-  display: none !important;
-}
-
-/* =========================================
-   CSO 定制皮肤：Medium 杂志风 (支持亮暗切换)
-   ========================================= */
-
-/* 1. 定义字体栈：核心在于标题的衬线体 */
-:root {
-  /* 试图调用系统自带的高级衬线体，类似 Medium 的 Noe Display */
-  --font-serif: "Merriweather", "Georgia", "Cambria", "Times New Roman", serif;
-  /* 正文保持干净的无衬线体 */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-}
-
-/* 2. 亮色模式 (Light Mode) - 经典的纸质阅读感 */
-:root {
-  --bg-color: #ffffff !important;
-  --fg-color: rgba(0, 0, 0, 0.84) !important; /* Medium 经典的深灰字，不是纯黑 */
-  --notion-red: #E24F3D !important; /* 强调色改得更优雅 */
-  --notion-blue: #2B6CB0 !important;
-}
-
-/* 3. 暗色模式 (Dark Mode) - 护眼的深邃黑 */
-.dark-mode {
-  --bg-color: #121212 !important; /* Medium 的暗色底是 #121212 */
-  --fg-color: rgba(255, 255, 255, 0.84) !important; /* 柔和白 */
-  --notion-header-background: #121212 !important;
-}
-
-/* 4. 全局背景应用 */
-body, .notion-app, .notion-viewport {
-  background-color: var(--bg-color) !important;
-  color: var(--fg-color) !important;
-  font-family: var(--font-sans) !important; /* 正文默认无衬线 */
-}
-
-/* 5. 灵魂注入：所有标题强制使用衬线体 */
-h1, h2, h3, .notion-h-title {
-  font-family: var(--font-serif) !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.015em !important; /* 紧凑字距增加高级感 */
-  line-height: 1.2 !important;
-}
-
-/* 6. 导航栏处理：极简融合 */
-.notion-navbar {
-  background: var(--bg-color) !important;
-  border-bottom: 1px solid rgba(0,0,0,0.05) !important; /* 极细的分割线 */
-  box-shadow: none !important; /* 去掉阴影 */
-}
-.dark-mode .notion-navbar {
-  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-}
-
-/* 7. 引用块 (Quote) - 类似 Medium 的极简左侧竖线 */
-.notion-quote {
-  border-left: 3px solid var(--fg-color) !important;
-  padding-left: 1.2rem !important;
-  font-style: italic;
-  font-family: var(--font-serif) !important; /* 引用也用衬线体，更有味道 */
-  font-size: 1.1em !important;
-  background: transparent !important; /* 去掉背景色 */
-}
-
-/* 8. 封面图调整 */
-.notion-page-cover {
-  max-height: 30vh !important; /* 不要让封面图大得吓人 */
-  opacity: 1 !important;
-}
-
-/* 9. 去除一些默认的 Notion 块背景色，保持干净 */
-.notion-callout {
-  background: transparent !important;
-  border: 1px solid rgba(128, 128, 128, 0.2);
-}
-
-/* =========================================
-   CSO 架构重构：顶部独立按钮样式
-   ========================================= */
-
-.custom-header-buttons {
-  position: fixed !important; /* 还是固定定位，但这次是原生的 */
-  top: 8px !important;
-  right: 8px !important;
-  z-index: 9999 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* =========================================
-   CSO 体验优化：移动端触控手感调优
-   ========================================= */
-
-.toggle-dark-mode {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  transition: transform 0.2s ease; /* 只过渡变形，取消背景色的延时过渡，反应更快 */
-  color: var(--fg-color) !important; 
-  font-size: 22px;
-  
-  /* --- 核心修复 --- */
-  /* 1. 消除移动端点击时的默认灰色方形背景 */
-  -webkit-tap-highlight-color: transparent !important;
-  /* 2. 消除点击后的聚焦边框 */
-  outline: none !important;
-  /* 3. 禁止用户长按选中图标 */
-  user-select: none !important;
-}
-
-/* CSO 高级技巧：区分鼠标和手指
-   只有在支持“悬停”的设备（电脑）上，才显示灰色背景和旋转
-   防止手机上点击后背景色“卡住”不消失
-*/
-@media (hover: hover) {
-  .toggle-dark-mode:hover {
-    background-color: rgba(128, 128, 128, 0.1);
-    transform: rotate(15deg);
-  }
-}
-
-/* 移动端专属交互：
-   手指按下时，图标稍微缩小一点点，产生“按压感”
-   (Active 状态比 Hover 更适合手机)
-*/
-.toggle-dark-mode:active {
-  transform: scale(0.92);
-  background-color: transparent !important; /* 确保按下时没有背景色干扰 */
-}
-
-/* =========================================
-   CSO 最终修正：底部版权绝对居中
-   ========================================= */
-
-footer, .notion-footer {
-  /* 1. 关键：强制占满屏幕全宽 (否则它缩在左边，怎么居中都没用) */
-  width: 100% !important;
-  max-width: 100vw !important;
-
-  /* 2. Flex 布局魔法：确保水平和垂直方向都居中 */
-  display: flex !important;
-  flex-direction: column !important; /* 从上到下排列 */
-  align-items: center !important;    /* 水平居中 (关键) */
-  justify-content: center !important;
-
-  /* 3. 文字强制居中 */
-  text-align: center !important;
-
-  /* 4. 之前的位置调整 (沉底) */
-  padding-bottom: 12px !important;
-  padding-top: 60px !important;
-  
-  /* 5. 清理可能存在的边距干扰 */
-  margin: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* 6. 双重保险：确保内部装文字的容器也是居中的 */
-footer > div, 
-.notion-footer > div {
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-}
-
-/* =========================================
-   CSO 补丁：强制唤醒右侧悬浮目录 (TOC)
-   ========================================= */
-
-/* 仅在宽屏 (电脑端) 生效，手机上还是隐藏比较好 */
-@media (min-width: 1200px) {
-  
-  /* 1. 强制显示侧边栏容器 */
-  .notion-aside {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    width: 260px !important; /* 给它定个宽度 */
-    position: sticky !important;
-    top: 100px !important; /* 距离顶部导航栏的距离 */
-    right: 0 !important;
-    height: auto !important;
-    max-height: 80vh !important;
-    overflow-y: auto !important;
-    padding-left: 20px !important;
-  }
-
-  /* 2. 强制显示目录的具体内容 */
-  .notion-table-of-contents {
-    display: block !important;
-  }
-
-  /* 3. 调整主内容区域，防止和目录重叠 */
-  /* 如果你的内容被挤出屏幕，需要把 max-width 稍微调小一点 */
-  .notion-page {
-    overflow: visible !important; /* 允许溢出显示侧边栏 */
-    padding-right: 0 !important;  /* 重置内边距 */
-  }
-
-  /* 针对 Medium 风格的微调：让目录文字小一点，显精致 */
-  .notion-table-of-contents-item {
-    font-size: 14px !important;
-    line-height: 1.6 !important;
-    color: var(--fg-color) !important;
-    opacity: 0.6;
-    border-left: 1px solid rgba(128,128,128,0.2);
-    padding-left: 12px;
-  }
-  
-  /* 激活状态高亮 */
-  .notion-table-of-contents-active-item {
-    opacity: 1 !important;
-    border-left: 2px solid var(--fg-color) !important;
-    font-weight: 600 !important;
-  }
-}
-
-/* =========================================
-   CSO 审美精修 V2：TOC 极致隐形版
-   ========================================= */
-
-@media (min-width: 1200px) {
-  
-  /* 1. 布局调整：保持与正文的呼吸感 */
-  .notion-aside {
-    padding-left: 120px !important; 
-  }
-
-  /* 2. 隐藏 "TABLE OF CONTENTS" 这个标题 */
-  .notion-aside-table-of-contents-header {
-    display: none !important;
-    visibility: hidden !important;
-  }
-
-  /* 3. 目录单项样式重构 */
-  .notion-table-of-contents-item {
-    /* 间距压缩：上下只留 2px，非常紧凑 */
-    padding-top: 2px !important;
-    padding-bottom: 2px !important;
-    margin: 0 !important;
-    
-    /* 字体排版 */
-    line-height: 1.6 !important; /* 行高调小 */
-    font-size: 13px !important;  /* 字体稍微缩小一点点，更精致 */
-    
-    /* 视觉样式 */
-    color: var(--fg-color) !important;
-    opacity: 0.4 !important;
-    border: none !important; /* 再次确保去线 */
-    transition: all 0.2s ease !important;
-  }
-
-  /* 4. 鼠标悬停交互 (去下划线) */
-  .notion-table-of-contents-item:hover {
-    background: transparent !important;
-    text-decoration: none !important; /* 关键：去掉下划线 */
-    opacity: 0.8 !important;          /* 只是变深一点，不做其他花哨动作 */
-    cursor: pointer !important;
-  }
-
-  /* 5. 选中状态交互 */
-  .notion-table-of-contents-active-item {
-    background: transparent !important;
-    border: none !important;
-    font-weight: 600 !important;      /* 只是加粗 */
-    opacity: 1 !important;            /* 完全不透明 */
-    color: var(--fg-color) !important;
-  }
-}
-
-/* =========================================
-   CSO 体验优化：手机端阅读呼吸感 (Side Padding)
-   ========================================= */
-
-@media (max-width: 640px) {
-  .notion-page {
-    /* 核心调整：左右间距从默认的窄边距增加到 24px */
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    
-    /* 同时也稍微调整一下上下间距，避免顶部太顶 */
-    padding-top: 20px !important;
-  }
-
-  /* 针对列表、引用块等缩进元素的微调，防止它们缩得太里面 */
-  .notion-list, .notion-quote {
-    padding-left: 20px !important;
-  }
-}
-
 /* =================================================================
-   CDO 终极修正：强制扁平化与小圆角 (2025版)
+   CDO 全局样式重写 (Final Version)
+   包含了：字体优化、暗黑模式适配、以及你的定制化 UI 需求
    ================================================================= */
 
-/* --- 1. 彻底修复：顶部大图 (Hero Image) --- */
-
-/* 针对 Notion 图片块的最外层容器 */
-.notion-block-image {
-  /* 强制去除外层可能存在的大圆角 */
-  border-radius: 8px !important; 
+:root {
+  --fg-color: #37352f;
+  --fg-color-0: rgba(55, 53, 47, 0.09);
+  --fg-color-1: rgba(55, 53, 47, 0.16);
+  --fg-color-2: rgba(55, 53, 47, 0.6);
+  --fg-color-3: rgba(55, 53, 47, 0.8);
+  --fg-color-4: #000;
+  --bg-color: #fff;
+  --bg-color-0: rgba(135, 131, 120, 0.15);
+  --bg-color-1: #f7f6f3;
+  --bg-color-2: rgba(135, 131, 120, 0.15);
+  --notion-red: #e03e3e;
+  --notion-pink: #ad1a72;
+  --notion-blue: #0b6e99;
+  --notion-purple: #6940a5;
+  --notion-teal: #4d6461;
+  --notion-yellow: #dfab01;
+  --notion-orange: #d9730d;
+  --notion-brown: #64473a;
+  --notion-gray: #9b9a97;
+  
+  /* 覆盖 Notion 默认间距变量 */
+  --notion-gap: 16px !important;
 }
 
-/* 针对图片本身，以及 Next.js 自动生成的包裹层 */
-.notion-block-image img,
-.notion-block-image > span,
-.notion-block-image .notion-asset-wrapper {
-  /* 核心：强制把圆角改小 (你参考图那种利落的感觉) */
-  border-radius: 8px !important; 
-  
-  /* 核心：强制杀掉投影 */
-  box-shadow: none !important;
-  filter: none !important; /* 防止有滤镜投影 */
+[data-theme='dark'] {
+  --fg-color: rgba(255, 255, 255, 0.9);
+  --fg-color-0: rgba(255, 255, 255, 0.13);
+  --fg-color-1: rgba(255, 255, 255, 0.2);
+  --fg-color-2: rgba(255, 255, 255, 0.6);
+  --fg-color-3: rgba(255, 255, 255, 0.8);
+  --fg-color-4: #fff;
+  --bg-color: #2f3437;
+  --bg-color-0: rgba(255, 255, 255, 0.1);
+  --bg-color-1: #3f4447;
+  --bg-color-2: rgba(255, 255, 255, 0.1);
+  --notion-red: #ff7369;
+  --notion-pink: #e255a1;
+  --notion-blue: #529cca;
+  --notion-purple: #9a6dd7;
+  --notion-teal: #4dab9a;
+  --notion-yellow: #ffdc49;
+  --notion-orange: #ffa344;
+  --notion-brown: #937264;
+  --notion-gray: #979a9b;
 }
 
-/* --- 2. 彻底修复：数据库卡片 (Gallery Card) --- */
+/* =========================================================
+   1. 核心修复：顶部大图 & 内容图片 (Hero / Block Image)
+   目标：完全去掉圆角、去掉投影，实现“扁平大图”效果
+   ========================================================= */
 
-/* 针对卡片本体 */
-.notion-gallery-card {
-  /* 核心：杀掉卡片的大投影 */
+/* 针对 Notion 内容里的 Image Block */
+body .notion-block-image {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin-top: 0 !important; /* 消除顶部多余间距，让图片顶上去 */
+  margin-bottom: 2rem !important;
+}
+
+/* ⚠️ 关键：Next.js Image 会套一层 span，必须穿透它 */
+body .notion-block-image img,
+body .notion-block-image > span {
+  border-radius: 0 !important; /* 强制变直角 */
+  box-shadow: none !important;
+  max-height: 60vh !important; /* 限制最大高度，防止霸屏 */
+  object-fit: cover !important;
+}
+
+/* 针对 Notion Page Cover (防止你用的是封面图) */
+body .notion-page-cover-wrapper,
+body .notion-page-cover,
+body .notion-page-cover span,
+body .notion-page-cover img {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-height: 30vh !important;
+}
+
+
+/* =========================================================
+   2. 核心修复：数据库卡片 (Gallery View)
+   目标：小间距、去投影、细边框、小圆角
+   ========================================================= */
+
+/* 修复间距变大的问题 */
+body .notion-gallery-grid {
+  grid-gap: 16px !important;  /* 强制紧凑间距 */
+  gap: 16px !important;
+  border-top: none !important;
+  padding-top: 4px !important;
+}
+
+/* 卡片本体样式 */
+body .notion-gallery-card {
+  /* 去掉原本的大投影 */
   box-shadow: none !important;
   
-  /* 核心：新需求 - 把卡片圆角也改小 (比如 6px) */
-  border-radius: 6px !important;
+  /* 改为小圆角 (4px) */
+  border-radius: 4px !important;
   
-  /* 扁平化处理：加一根极细的灰线代替投影，更有质感 */
-  border: 1px solid rgba(135, 131, 120, 0.15) !important;
+  /* 加一根极细的边框，提升精致感 */
+  border: 1px solid var(--fg-color-1) !important;
   
-  /* 去掉默认白色背景，让它透气 */
-  background: transparent !important; 
+  /* 背景透明，更通透 */
+  background: transparent !important;
   
-  /* 优化交互动画 */
   transition: all 0.2s ease !important;
 }
 
-/* 针对卡片里的封面图容器 */
-.notion-gallery-card .notion-page-cover-wrapper {
-  /* 封面图顶部的圆角要跟随卡片 */
-  border-top-left-radius: 5px !important;
-  border-top-right-radius: 5px !important;
+/* 鼠标悬停交互 */
+body .notion-gallery-card:hover {
+  /* 悬停时微微变灰，而不是加投影 */
+  background: var(--bg-color-0) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 卡片封面图圆角修正 */
+body .notion-gallery-card .notion-page-cover-wrapper {
+  border-top-left-radius: 3px !important;
+  border-top-right-radius: 3px !important;
   border-bottom: none !important;
 }
 
-/* 针对卡片里的图片本身 */
-.notion-gallery-card .notion-page-cover {
-  border-radius: 0 !important; /* 内部图片不需要圆角，交给容器切 */
+/* 卡片文字区域紧凑化 */
+body .notion-gallery-card .notion-collection-card-body {
+    padding: 12px 10px !important;
 }
 
-/* --- 3. 鼠标悬停交互 (Hover) --- */
-.notion-gallery-card:hover {
-  /* 悬停时：不要投影，而是让背景微微变灰，这是高级感的来源 */
-  background: rgba(128, 128, 128, 0.04) !important;
-  border-color: rgba(135, 131, 120, 0.3) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: none !important; /* 再次确保悬停也没投影 */
-}
-
-/* --- 4. 暗黑模式适配 --- */
-[data-theme="dark"] .notion-gallery-card {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-[data-theme="dark"] .notion-gallery-card:hover {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+/* 隐藏卡片里的日期/属性图标 (可选，会让卡片更干净) */
+body .notion-gallery-card .notion-property-icon {
+    display: none !important;
 }
