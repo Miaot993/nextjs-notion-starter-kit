@@ -375,71 +375,76 @@ footer > div,
   }
 }
 
-/* =========================================
-   CDO 定制样式：首页美化 (Hero & Gallery)
-   ========================================= */
+/* =================================================================
+   CDO 终极定制：强制覆盖 Notion 原生样式 (High Priority)
+   ================================================================= */
 
-/* --- 1. 顶部大图 (Hero Image) 样式调整 --- */
+/* --- 1. 彻底压扁 Hero 大图 (针对 Next.js Image 复杂结构) --- */
 
-/* 选中所有图片块的外层包裹容器 */
-.notion-block-image .notion-asset-wrapper {
-    /* 将原来的大圆角 (20px+) 改为精致的小圆角 */
-    border-radius: 8px !important;
-    
-    /* 彻底去除投影，实现扁平化风格 */
-    box-shadow: none !important;
-    
-    /* 可选：加一个极细的边框来增加一点边界感，不喜欢的可以注释掉 */
-    border: 1px solid rgba(128, 128, 128, 0.1);
+/* 针对外层容器 */
+.notion-block-image {
+  border-radius: 8px !important;
+  box-shadow: none !important;
 }
 
+/* 针对内部所有可能产生样式的元素 (img, span) - 实施“株连九族”式覆盖 */
+.notion-block-image img,
+.notion-block-image span {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
 
-/* --- 2. 数据库卡片 (Gallery Card) 样式调整 --- */
+/* --- 2. 彻底重构画廊视图 (Gallery Grid) --- */
 
-/* 修改卡片网格容器的间距 */
+/* 强制修改网格容器 */
 .notion-gallery-grid {
-    /* 将卡片间的距离从默认的 32px 缩小到 16px，让布局更紧凑 */
-    gap: 16px !important;
-    
-    /* 微调上下的内边距，让整体更协调 */
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
+  /* 你的参考站间距很小，这里设为 12px 或 16px */
+  gap: 16px !important; 
+  border-top: none !important; /* 去掉有时会出现的顶部分割线 */
+  padding-top: 10px !important;
 }
 
-/* 修改单个卡片的样式 */
+/* 强制修改卡片本体 */
 .notion-gallery-card {
-    /* 卡片圆角也相应改小，风格统一 */
-    border-radius: 6px !important;
-    
-    /* 去除卡片的大投影 */
-    box-shadow: none !important;
-    
-    /* 添加一个极细的淡灰色边框，模拟 Notion 原版卡片的清爽质感 */
-    border: 1px solid rgba(128, 128, 128, 0.15) !important;
-    
-    /* 添加一个过渡效果，让鼠标悬停时的变化更丝滑 */
-    transition: all 0.2s ease;
+  /* 扁平化核心：去掉默认的大阴影，改为极细边框 */
+  box-shadow: none !important;
+  border: 1px solid rgba(135, 131, 120, 0.15) !important;
+  background: transparent !important; /* 去掉背景色，更通透 */
+  
+  /* 圆角改小，更商务 */
+  border-radius: 6px !important;
+  
+  /* 交互动画 */
+  transition: transform 0.2s ease, background 0.2s ease !important;
 }
 
-/* 鼠标悬停在卡片上时的交互效果 */
+/* 悬停交互 */
 .notion-gallery-card:hover {
-    /* 悬停时卡片稍微上浮一点点，增加互动感 */
-    transform: translateY(-2px);
-    
-    /* 悬停时加一个很浅的投影，让它“浮”起来 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    
-    /* 悬停时边框颜色稍加深 */
-    border-color: rgba(128, 128, 128, 0.3) !important;
+  background: rgba(128, 128, 128, 0.03) !important;
+  transform: translateY(-2px) !important;
+  border-color: rgba(135, 131, 120, 0.4) !important;
 }
 
-/* --- 暗黑模式 (Dark Mode) 适配 --- */
-[data-theme="dark"] .notion-block-image .notion-asset-wrapper,
+/* --- 3. 细节微调：卡片封面图 --- */
+.notion-gallery-card .notion-page-cover-wrapper {
+  /* 确保封面图顶部也有圆角，不然会溢出 */
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+  height: 180px !important; /* 强制统一高度（可选，防止参差不齐） */
+  object-fit: cover !important;
+}
+
+/* --- 4. 细节微调：卡片文字区 --- */
+.notion-gallery-card .notion-collection-card-body {
+  /* 压缩内边距，让文字紧凑 */
+  padding: 10px 12px !important; 
+}
+
+/* --- 暗黑模式适配 --- */
 [data-theme="dark"] .notion-gallery-card {
-    border-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
-
 [data-theme="dark"] .notion-gallery-card:hover {
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
 }
