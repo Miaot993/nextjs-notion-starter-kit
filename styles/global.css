@@ -374,3 +374,72 @@ footer > div,
     padding-left: 20px !important;
   }
 }
+
+/* =========================================
+   CDO 定制样式：首页美化 (Hero & Gallery)
+   ========================================= */
+
+/* --- 1. 顶部大图 (Hero Image) 样式调整 --- */
+
+/* 选中所有图片块的外层包裹容器 */
+.notion-block-image .notion-asset-wrapper {
+    /* 将原来的大圆角 (20px+) 改为精致的小圆角 */
+    border-radius: 8px !important;
+    
+    /* 彻底去除投影，实现扁平化风格 */
+    box-shadow: none !important;
+    
+    /* 可选：加一个极细的边框来增加一点边界感，不喜欢的可以注释掉 */
+    border: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+
+/* --- 2. 数据库卡片 (Gallery Card) 样式调整 --- */
+
+/* 修改卡片网格容器的间距 */
+.notion-gallery-grid {
+    /* 将卡片间的距离从默认的 32px 缩小到 16px，让布局更紧凑 */
+    gap: 16px !important;
+    
+    /* 微调上下的内边距，让整体更协调 */
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+/* 修改单个卡片的样式 */
+.notion-gallery-card {
+    /* 卡片圆角也相应改小，风格统一 */
+    border-radius: 6px !important;
+    
+    /* 去除卡片的大投影 */
+    box-shadow: none !important;
+    
+    /* 添加一个极细的淡灰色边框，模拟 Notion 原版卡片的清爽质感 */
+    border: 1px solid rgba(128, 128, 128, 0.15) !important;
+    
+    /* 添加一个过渡效果，让鼠标悬停时的变化更丝滑 */
+    transition: all 0.2s ease;
+}
+
+/* 鼠标悬停在卡片上时的交互效果 */
+.notion-gallery-card:hover {
+    /* 悬停时卡片稍微上浮一点点，增加互动感 */
+    transform: translateY(-2px);
+    
+    /* 悬停时加一个很浅的投影，让它“浮”起来 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    
+    /* 悬停时边框颜色稍加深 */
+    border-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+/* --- 暗黑模式 (Dark Mode) 适配 --- */
+[data-theme="dark"] .notion-block-image .notion-asset-wrapper,
+[data-theme="dark"] .notion-gallery-card {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="dark"] .notion-gallery-card:hover {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05) !important;
+}
