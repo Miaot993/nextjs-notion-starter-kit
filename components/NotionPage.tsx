@@ -371,6 +371,50 @@ export function NotionPage({
       />
 
       <GitHubShareButton />
+
+      {/* =========================================================== */}
+      {/* CSO 终极样式修正：强制扁平化、去圆角、去投影 */}
+      {/* 这种写法优先级最高，绝对能覆盖 Notion 的默认样式 */}
+      {/* =========================================================== */}
+      <style jsx global>{`
+        /* 1. 顶部大图 (Hero) - 强制去圆角、去投影 */
+        .notion-block-image img,
+        .notion-block-image .notion-asset-wrapper {
+          border-radius: 8px !important; /* 统一 8px 圆角 */
+          box-shadow: none !important;
+          max-height: 50vh !important; /* 防止图片过高 */
+          object-fit: cover !important;
+        }
+
+        /* 消除图片外层多余的圆角遮罩 */
+        .notion-block-image > span {
+            border-radius: 8px !important;
+        }
+
+        /* 2. 画廊卡片 (Gallery) - 强制扁平化 */
+        .notion-gallery-card {
+          border-radius: 6px !important; /* 卡片小圆角 */
+          box-shadow: none !important;   /* 去掉卡片投影 */
+          border: 1px solid rgba(135, 131, 120, 0.15) !important; /* 加细边框 */
+          background: transparent !important;
+        }
+        
+        /* 3. 卡片悬停效果 - 依然无投影 */
+        .notion-gallery-card:hover {
+          box-shadow: none !important;
+          background: rgba(128, 128, 128, 0.04) !important;
+          transform: translateY(-2px);
+          border-color: rgba(135, 131, 120, 0.3) !important;
+        }
+
+        /* 4. 暗黑模式适配 */
+        [data-theme="dark"] .notion-gallery-card {
+          border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        [data-theme="dark"] .notion-gallery-card:hover {
+          background: rgba(255, 255, 255, 0.05) !important;
+        }
+      `}</style>
     </>
   )
 
