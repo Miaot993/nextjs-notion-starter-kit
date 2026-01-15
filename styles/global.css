@@ -68,3 +68,119 @@ body .notion-table-of-contents-item { list-style: none !important; padding: 2px 
 body .notion-table-of-contents-item a { text-decoration: none !important; color: rgba(55,53,47,0.6) !important; }
 body .notion-table-of-contents-item a:hover { color: #0b6e99 !important; }
 body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; border-radius: 4px !important; }
+
+/* =================================================================
+   CDO 定制：博客列表布局 (Blog List Style)
+   目标：仿 new_wip 风格，左文右图，单栏排列
+   ================================================================= */
+
+/* 1. 将网格强制改为单列列表 */
+.index-page .notion-gallery-grid {
+    grid-template-columns: 1fr !important; /* 强制一列 */
+    max-width: 800px !important; /* 限制最大宽度，像博客一样居中 */
+    margin: 0 auto !important;
+    gap: 40px !important; /* 列表项之间的间距 */
+    padding-top: 20px !important;
+}
+
+/* 2. 改造卡片：变成弹性盒子，左右布局 */
+.index-page .notion-gallery-card {
+    display: flex !important;
+    flex-direction: row-reverse !important; /* 关键：反向排列，让图片在右，文字在左 */
+    align-items: flex-start !important; /* 顶部对齐 */
+    justify-content: space-between !important;
+    
+    height: auto !important; /* 高度自适应 */
+    min-height: 160px !important;
+    
+    border: none !important; /* 去掉卡片边框 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; /* 加一条底部分割线 */
+    border-radius: 0 !important; /* 去掉圆角 */
+    padding-bottom: 40px !important; /* 底部留白 */
+    background: transparent !important;
+    box-shadow: none !important; /* 确保无投影 */
+}
+
+/* 悬停效果：不再上浮，而是标题变色 (可选) */
+.index-page .notion-gallery-card:hover {
+    transform: none !important;
+    background: transparent !important;
+}
+
+/* 3. 右侧图片样式 (原 Cover) */
+.index-page .notion-gallery-card .notion-page-cover-wrapper {
+    width: 240px !important; /* 固定图片宽度 */
+    height: 160px !important; /* 固定图片高度 */
+    flex-shrink: 0 !important; /* 防止被挤压 */
+    margin-left: 32px !important; /* 图片和文字的间距 */
+    
+    border-radius: 8px !important; /* 图片圆角 */
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+/* 确保图片填满容器 */
+.index-page .notion-gallery-card .notion-page-cover {
+    height: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* 4. 左侧文字区域样式 */
+.index-page .notion-gallery-card .notion-collection-card-body {
+    flex: 1 !important; /* 占满剩余空间 */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 0 !important; /* 去掉默认内边距 */
+    overflow: visible !important;
+}
+
+/* 标题样式 (Notion 默认是 h3 或 span) */
+.index-page .notion-gallery-card .notion-property-title {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+    color: var(--fg-color) !important;
+}
+
+/* 摘要/简介样式 (对应 Notion 里的 Text 属性) */
+.index-page .notion-gallery-card .notion-property-text {
+    font-size: 0.95rem !important;
+    color: var(--fg-color-3) !important; /* 灰色 */
+    line-height: 1.6 !important;
+    margin-bottom: 12px !important;
+    
+    /* 限制显示行数，多余的省略号 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal !important;
+}
+
+/* 日期/作者样式 */
+.index-page .notion-gallery-card .notion-property-date,
+.index-page .notion-gallery-card .notion-property-person {
+    font-size: 0.85rem !important;
+    color: var(--fg-color-1) !important; /* 浅灰色 */
+}
+
+/* =========================================================
+   移动端适配 (手机上变回上下排列)
+   ========================================================= */
+@media (max-width: 768px) {
+    .index-page .notion-gallery-card {
+        flex-direction: column-reverse !important; /* 图片在下，文字在上？通常图片在上 */
+        /* 或者 column: 图片在上，文字在下 */
+        flex-direction: column !important; 
+        height: auto !important;
+    }
+    
+    .index-page .notion-gallery-card .notion-page-cover-wrapper {
+        width: 100% !important;
+        height: 200px !important;
+        margin-left: 0 !important;
+        margin-bottom: 16px !important;
+    }
+}
