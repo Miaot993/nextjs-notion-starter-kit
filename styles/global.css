@@ -45,8 +45,8 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .custom-header-buttons {
     /* 从 absolute 改为 fixed，让它锁死在屏幕右上角 */
     position: fixed !important; 
-    top: 20px; 
-    right: 20px; 
+    top: 16px; 
+    right: 16px; 
     z-index: 9999 !important; /* 层级设高，防止被图片遮挡 */
     display: flex; 
     align-items: center;
@@ -61,11 +61,34 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
     padding: 8px; 
     cursor: pointer; 
     transition: transform 0.2s ease;
-}
-.toggle-dark-mode:hover {
-    transform: scale(1.1); /* 鼠标悬停稍微放大 */
+    
+    /* 1. 修改大小：调整 scale 的数值 (1.0 是原始大小，1.2 是放大 20%) */
+    transform: scale(1.2); 
+
+    /* 3. 去掉手机端点击时的灰色底块 */
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    
+    /* 默认颜色（亮色模式下的太阳颜色） */
+    color: #37352f; 
 }
 
+/* 鼠标悬停时进一步放大 */
+.toggle-dark-mode:hover {
+    transform: scale(1.25); /* 悬停时再大一点 */
+    background: rgba(0,0,0,0.05); /* 仅在鼠标悬停时显示极淡背景 */
+    border-radius: 50%; /* 圆形背景 */
+}
+
+/* 2. 深色模式下月亮的图标改为白色 */
+[data-theme='dark'] .toggle-dark-mode {
+    color: #ffffff !important; /* 强制白色 */
+}
+
+/* 手机端点击后的瞬间状态 (防止背景残留) */
+.toggle-dark-mode:active {
+    background: transparent;
+}
 
 /* =========================================================
    3. 核心布局：画廊 -> 列表 (保持不变)
