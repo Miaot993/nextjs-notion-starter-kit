@@ -379,7 +379,7 @@ export function NotionPage({
         /* 1. 顶部大图 (Hero) - 强制去圆角、去投影 */
         .notion-block-image img,
         .notion-block-image .notion-asset-wrapper {
-          border-radius: 8px !important; /* 统一 8px 圆角 */
+          border-radius: 4px !important; /* 统一 4px 圆角 */
           box-shadow: none !important;
           max-height: 50vh !important; /* 防止图片过高 */
           object-fit: cover !important;
@@ -387,12 +387,12 @@ export function NotionPage({
 
         /* 消除图片外层多余的圆角遮罩 */
         .notion-block-image > span {
-            border-radius: 8px !important;
+            border-radius: 4px !important;
         }
 
         /* 2. 画廊卡片 (Gallery) - 强制扁平化 */
         .notion-gallery-card {
-          border-radius: 6px !important; /* 卡片小圆角 */
+          border-radius: 4px !important; /* 卡片小圆角 */
           box-shadow: none !important;   /* 去掉卡片投影 */
           border: 1px solid rgba(135, 131, 120, 0.15) !important; /* 加细边框 */
           background: transparent !important;
