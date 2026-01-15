@@ -347,43 +347,4 @@ export function NotionPage({
 
       <NotionRenderer
         bodyClassName={cs(
-          styles.notion,
-          pageId === site.rootNotionPageId && 'index-page'
-        )}
-        darkMode={isDarkMode}
-        components={components}
-        recordMap={recordMap}
-        rootPageId={site.rootNotionPageId}
-        rootDomain={site.domain}
-        fullPage={!isLiteMode}
-        previewImages={!!recordMap.preview_images}
-        showCollectionViewDropdown={false}
-        showTableOfContents={showTableOfContents}
-        minTableOfContentsItems={minTableOfContentsItems}
-        defaultPageIcon={config.defaultPageIcon}
-        defaultPageCover={config.defaultPageCover}
-        defaultPageCoverPosition={config.defaultPageCoverPosition}
-        mapPageUrl={siteMapPageUrl}
-        mapImageUrl={mapImageUrl}
-        searchNotion={config.isSearchEnabled ? searchNotion : undefined}
-        pageAside={pageAside}
-        footer={footer}
-      />
-
-      <GitHubShareButton />
-
-    </>
-  )
-
-  // 5. 最终渲染
-  if (shouldLock) {
-    return (
-      <PasswordGate>
-        {pageContent}
-      </PasswordGate>
-    )
-  }
-
-  return pageContent
-  // ==============================================================
-}
+          styles.
