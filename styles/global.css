@@ -45,8 +45,8 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .custom-header-buttons {
     position: fixed !important; 
     /* 1. 在这里修改位置 */
-    top: 12px;    
-    right: 12px; 
+    top: 8px;    
+    right: 8px; 
     
     z-index: 9999 !important;
     display: flex; 
@@ -61,7 +61,7 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
     justify-content: center;
     width: 40px !important;  /* 锁死宽度 */
     height: 40px !important; /* 锁死高度 */
-    font-size: 26px !important; /* 🌟 新增：让里面的太阳/月亮图标也变大 */
+    font-size: 20px !important; /* 🌟 新增：让里面的太阳/月亮图标也变大 */
     border-radius: 50% !important; /* 绝对正圆 */
     padding: 0 !important;   /* 去掉 padding 防止变椭圆 */
     
