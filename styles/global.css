@@ -1,6 +1,5 @@
 /* =================================================================
-   CDO 全局样式重写 (Final Version)
-   包含了：字体优化、暗黑模式适配、以及你的定制化 UI 需求
+   CDO 全局样式重写 (Safe Version)
    ================================================================= */
 
 :root {
@@ -24,8 +23,8 @@
   --notion-brown: #64473a;
   --notion-gray: #9b9a97;
   
-  /* 覆盖 Notion 默认间距变量 */
-  --notion-gap: 16px !important;
+  /* 定义新的间距变量 */
+  --notion-gap: 16px;
 }
 
 [data-theme='dark'] {
@@ -51,28 +50,27 @@
 }
 
 /* =========================================================
-   1. 核心修复：顶部大图 & 内容图片 (Hero / Block Image)
-   目标：完全去掉圆角、去掉投影，实现“扁平大图”效果
+   1. 核心修复：顶部大图 & 内容图片
    ========================================================= */
 
 /* 针对 Notion 内容里的 Image Block */
 body .notion-block-image {
   border-radius: 0 !important;
   box-shadow: none !important;
-  margin-top: 0 !important; /* 消除顶部多余间距，让图片顶上去 */
+  margin-top: 0 !important; 
   margin-bottom: 2rem !important;
 }
 
-/* ⚠️ 关键：Next.js Image 会套一层 span，必须穿透它 */
+/* ⚠️ 穿透 Next.js Image 的外层结构 */
 body .notion-block-image img,
 body .notion-block-image > span {
-  border-radius: 0 !important; /* 强制变直角 */
+  border-radius: 0 !important;
   box-shadow: none !important;
-  max-height: 60vh !important; /* 限制最大高度，防止霸屏 */
+  max-height: 60vh !important;
   object-fit: cover !important;
 }
 
-/* 针对 Notion Page Cover (防止你用的是封面图) */
+/* 针对 Notion Page Cover */
 body .notion-page-cover-wrapper,
 body .notion-page-cover,
 body .notion-page-cover span,
@@ -85,54 +83,39 @@ body .notion-page-cover img {
 
 /* =========================================================
    2. 核心修复：数据库卡片 (Gallery View)
-   目标：小间距、去投影、细边框、小圆角
    ========================================================= */
 
-/* 修复间距变大的问题 */
 body .notion-gallery-grid {
-  grid-gap: 16px !important;  /* 强制紧凑间距 */
+  grid-gap: 16px !important;
   gap: 16px !important;
   border-top: none !important;
   padding-top: 4px !important;
 }
 
-/* 卡片本体样式 */
 body .notion-gallery-card {
-  /* 去掉原本的大投影 */
   box-shadow: none !important;
-  
-  /* 改为小圆角 (4px) */
   border-radius: 4px !important;
-  
-  /* 加一根极细的边框，提升精致感 */
   border: 1px solid var(--fg-color-1) !important;
-  
-  /* 背景透明，更通透 */
   background: transparent !important;
-  
   transition: all 0.2s ease !important;
 }
 
-/* 鼠标悬停交互 */
 body .notion-gallery-card:hover {
-  /* 悬停时微微变灰，而不是加投影 */
   background: var(--bg-color-0) !important;
   transform: translateY(-2px) !important;
+  border-color: var(--fg-color-2) !important;
 }
 
-/* 卡片封面图圆角修正 */
 body .notion-gallery-card .notion-page-cover-wrapper {
   border-top-left-radius: 3px !important;
   border-top-right-radius: 3px !important;
   border-bottom: none !important;
 }
 
-/* 卡片文字区域紧凑化 */
 body .notion-gallery-card .notion-collection-card-body {
     padding: 12px 10px !important;
 }
 
-/* 隐藏卡片里的日期/属性图标 (可选，会让卡片更干净) */
 body .notion-gallery-card .notion-property-icon {
     display: none !important;
 }
