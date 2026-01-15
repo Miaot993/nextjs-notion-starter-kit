@@ -40,54 +40,68 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 }
 
 /* =========================================================
-   🌟 修改：按钮固定 (Fixed Positioning)
+   🌟 核心修复：按钮位置、形状、颜色、手机适配
    ========================================================= */
 .custom-header-buttons {
-    /* 从 absolute 改为 fixed，让它锁死在屏幕右上角 */
     position: fixed !important; 
-    top: 16px; 
-    right: 16px; 
-    z-index: 9999 !important; /* 层级设高，防止被图片遮挡 */
+    /* 1. 在这里修改位置 */
+    top: 20px;    
+    right: 20px; 
+    
+    z-index: 9999 !important;
     display: flex; 
     align-items: center;
-    
-    /*以此保证按钮背景在有内容滚动经过时依然清晰可见(可选)*/
-    /* background: rgba(255,255,255,0.8); */
-    /* backdrop-filter: blur(4px); */
-    /* border-radius: 20px; */
+    justify-content: center;
 }
 
 .toggle-dark-mode { 
-    padding: 8px; 
+    /* 2. 强制正圆：锁死宽高 + 居中 */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px !important;  /* 锁死宽度 */
+    height: 40px !important; /* 锁死高度 */
+    border-radius: 50% !important; /* 绝对正圆 */
+    padding: 0 !important;   /* 去掉 padding 防止变椭圆 */
+    
     cursor: pointer; 
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease;
     
-    /* 1. 修改大小：调整 scale 的数值 (1.0 是原始大小，1.2 是放大 20%) */
-    transform: scale(1.2); 
-
-    /* 3. 去掉手机端点击时的灰色底块 */
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
+    /* 3. 手机端优化：去掉点击时的系统灰块 */
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    user-select: none;
     
-    /* 默认颜色（亮色模式下的太阳颜色） */
-    color: #37352f; 
+    /* 默认颜色 (亮色模式) */
+    color: #37352f !important;
+    background: transparent !important;
 }
 
-/* 鼠标悬停时进一步放大 */
-.toggle-dark-mode:hover {
-    transform: scale(1.25); /* 悬停时再大一点 */
-    background: rgba(0,0,0,0.05); /* 仅在鼠标悬停时显示极淡背景 */
-    border-radius: 50%; /* 圆形背景 */
+/* 💻 电脑端悬停效果 (只在有鼠标的设备上生效，防止手机端卡住) */
+@media (hover: hover) {
+    .toggle-dark-mode:hover {
+        background: rgba(0,0,0,0.05) !important; /* 极淡灰色圆底 */
+        transform: scale(1.1);
+    }
 }
 
-/* 2. 深色模式下月亮的图标改为白色 */
-[data-theme='dark'] .toggle-dark-mode {
-    color: #ffffff !important; /* 强制白色 */
-}
-
-/* 手机端点击后的瞬间状态 (防止背景残留) */
+/* 📱 手机端点击反馈 (按下去缩小一点点，但不显示背景色) */
 .toggle-dark-mode:active {
-    background: transparent;
+    transform: scale(0.9);
+    background: transparent !important;
+}
+
+/* 🌙 暗黑模式适配 (修复月亮不白的问题) */
+/* 只要 body 有 dark-mode 类，里面的图标就强制变白 */
+body.dark-mode .toggle-dark-mode {
+    color: #ffffff !important; 
+}
+
+/* 暗黑模式下的悬停 (仅电脑) */
+@media (hover: hover) {
+    body.dark-mode .toggle-dark-mode:hover {
+        background: rgba(255,255,255,0.1) !important;
+    }
 }
 
 /* =========================================================
