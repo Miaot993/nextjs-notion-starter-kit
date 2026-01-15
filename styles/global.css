@@ -1,12 +1,11 @@
 /* =================================================================
-   CDO 终极样式：万能通杀版 (Universal Selector Fix)
-   目标：强制实现“左文右图”的博客列表布局
+   CDO 终极样式：博客列表 (正文图片版)
    ================================================================= */
 
 :root {
   --notion-corner-radius: 4px !important;
   --fg-color: #37352f;
-  --fg-color-1: rgba(55, 53, 47, 0.6); /* 次级文字灰 */
+  --fg-color-1: rgba(55, 53, 47, 0.6);
   --bg-color: #fff;
 }
 
@@ -14,34 +13,32 @@
 body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .notion-frame { padding: 0 !important; }
 
-/* 2. 亮暗模式按钮复位 */
+/* 2. 按钮复位 */
 .custom-header-buttons {
-    position: absolute !important;
-    top: 16px; right: 20px; z-index: 1000;
+    position: absolute !important; top: 16px; right: 20px; z-index: 1000;
     display: flex; align-items: center;
 }
 .toggle-dark-mode { padding: 8px; cursor: pointer; }
 
 /* =========================================================
-   3. 核心布局改造：画廊 -> 列表
+   3. 核心布局：画廊 -> 列表
    ========================================================= */
 
-/* 强制把网格变成单列 */
+/* 强制网格变成单列 */
 body .notion-gallery-grid {
     display: flex !important;
     flex-direction: column !important;
+    gap: 0 !important;
     border-top: none !important;
     padding-top: 20px !important;
-    max-width: 800px !important; /* 限制阅读宽度 */
-    margin: 0 auto !important;   /* 居中 */
-    gap: 0 !important;
+    max-width: 800px !important; /* 限制宽度 */
+    margin: 0 auto !important;
 }
 
-/* 🌟 核心修改：针对网格里的每一个链接卡片 (Universal Selector) */
+/* 改造卡片：左文右图 */
 body .notion-gallery-grid a {
     display: flex !important;
-    /* 关键翻转：让图片去右边，文字去左边 */
-    flex-direction: row-reverse !important; 
+    flex-direction: row-reverse !important; /* 图片右，文字左 */
     align-items: flex-start !important;
     justify-content: space-between !important;
     
@@ -52,53 +49,70 @@ body .notion-gallery-grid a {
     /* 样式清空 */
     box-shadow: none !important;
     border: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important; /* 只留底线 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
     border-radius: 0 !important;
     background: transparent !important;
     
     padding: 24px 0 !important;
-    text-decoration: none !important; /* 去掉链接下划线 */
+    text-decoration: none !important;
 }
 
 /* =========================================================
-   4. 右侧图片 (Thumbnail)
+   4. 右侧图片容器 (适配正文图片)
    ========================================================= */
-/* 定位图片容器：无论它叫什么，只要是里面的第一个 div */
+
+/* 选中卡片里的第一个 DIV (也就是图片容器) */
 body .notion-gallery-grid a > div:first-child {
     width: 200px !important;   /* 🔒 锁死宽度 */
     height: 134px !important;  /* 🔒 锁死高度 */
     
     flex-shrink: 0 !important;
-    margin-left: 32px !important; /* 离左边文字远一点 */
-    margin-bottom: 0 !important;  /* 消除底部间距 */
+    margin-left: 32px !important; 
+    margin-bottom: 0 !important;
     
     border-radius: 6px !important;
     overflow: hidden !important;
     position: relative !important;
+    
+    /* 🌟 关键修改：去掉白色背景和阴影，防止无图时出现白框 */
+    background: transparent !important; 
+    box-shadow: none !important;
 }
 
-/* 强制图片填满 */
+/* 针对正文预览图片 (Page Content Image) */
 body .notion-gallery-grid a img {
     height: 100% !important;
     width: 100% !important;
-    object-fit: cover !important;
-    max-height: none !important;
+    object-fit: cover !important; /* 强制裁剪填满 */
     position: absolute !important;
     top: 0; left: 0;
+    opacity: 1 !important;
+}
+
+/* 如果 Notion 返回的是纯文本预览（没有图），试图隐藏它，保持布局整洁 */
+/* 注意：这可能会让右边空着，但比显示一堆乱字好 */
+body .notion-gallery-grid a > div:first-child:not(:has(img)) {
+    /* 只有当里面没有 img 标签时，才显示淡灰色占位块 */
+    background: rgba(0,0,0,0.03) !important; 
+}
+/* 给无图的方块加个默认图标 (可选) */
+body .notion-gallery-grid a > div:first-child:not(:has(img))::after {
+    content: "No Image";
+    display: flex; justify-content: center; align-items: center;
+    width: 100%; height: 100%;
+    color: #ccc; font-size: 12px;
 }
 
 /* =========================================================
    5. 左侧文字 (Content)
    ========================================================= */
-/* 定位文字容器：通常是图片后面的那个 div */
 body .notion-gallery-grid a > div:last-child {
     flex: 1 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     padding: 0 !important;
-    border: none !important; /* 确保没有内部边框 */
-    background: transparent !important;
+    border: none !important;
 }
 
 /* 标题 */
@@ -108,10 +122,10 @@ body .notion-gallery-grid .notion-property-title {
     line-height: 1.3 !important;
     margin-bottom: 8px !important;
     color: #111 !important;
-    white-space: normal !important; /* 允许换行 */
+    white-space: normal !important;
 }
 
-/* 摘要/文本 */
+/* 摘要 */
 body .notion-gallery-grid .notion-property-text {
     font-size: 1rem !important;
     color: rgba(0,0,0,0.6) !important;
@@ -119,13 +133,13 @@ body .notion-gallery-grid .notion-property-text {
     margin-bottom: 12px !important;
     
     display: -webkit-box !important;
-    -webkit-line-clamp: 2; /* 限制2行 */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     white-space: normal !important;
 }
 
-/* 日期/作者 */
+/* 日期 */
 body .notion-gallery-grid .notion-property-date,
 body .notion-gallery-grid .notion-property-person {
     font-size: 0.85rem !important;
@@ -136,20 +150,11 @@ body .notion-gallery-grid .notion-property-person {
 /* 隐藏图标 */
 body .notion-property-icon { display: none !important; }
 
-/* =========================================================
-   6. 手机端适配
-   ========================================================= */
+/* 手机适配 */
 @media (max-width: 768px) {
-    body .notion-gallery-grid a {
-        flex-direction: column-reverse !important; /* 手机上图片在上 */
-        padding: 20px 0 !important;
-    }
-    /* 手机上图片变宽 */
+    body .notion-gallery-grid a { flex-direction: column-reverse !important; }
     body .notion-gallery-grid a > div:first-child {
-        width: 100% !important;
-        height: 180px !important;
-        margin-left: 0 !important;
-        margin-bottom: 16px !important;
+        width: 100% !important; height: 180px !important; margin-left: 0 !important; margin-bottom: 16px !important;
     }
 }
 
