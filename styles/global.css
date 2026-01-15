@@ -1,5 +1,6 @@
 /* =================================================================
-   CDO 全局样式重写 (Safe Version)
+   CDO 全局样式重写 (Final Plus Version)
+   包含了：全局变量、大图/卡片基础修复、以及**目录美化**
    ================================================================= */
 
 :root {
@@ -118,4 +119,38 @@ body .notion-gallery-card .notion-collection-card-body {
 
 body .notion-gallery-card .notion-property-icon {
     display: none !important;
+}
+
+/* =========================================================
+   3. 核心修复：右侧目录 (Table of Contents)
+   目标：隐藏标题，美化列表项，还原到你想要的样式
+   ========================================================= */
+
+/* 隐藏 "TABLE OF CONTENTS" 标题 */
+body .notion-aside-table-of-contents-header {
+    display: none !important;
+}
+
+/* 美化目录列表 */
+body .notion-table-of-contents {
+    padding-left: 0 !important; /* 去掉默认的左内边距 */
+}
+
+/* 美化目录项 */
+body .notion-table-of-contents-item {
+    list-style: none !important; /* 去掉列表前的点或数字 */
+    padding: 4px 0 !important;   /* 调整每个条目的上下间距 */
+}
+
+/* 美化目录链接 */
+body .notion-table-of-contents-item a {
+    color: var(--fg-color-2) !important; /* 使用次级文字颜色 */
+    text-decoration: none !important;    /* 去掉下划线 */
+    transition: color 0.2s ease !important;
+    font-size: 0.9rem !important;        /* 稍微调小字体 */
+}
+
+/* 鼠标悬停时链接变色 */
+body .notion-table-of-contents-item a:hover {
+    color: var(--notion-blue) !important; /* 悬停时变成 Notion 蓝 */
 }
