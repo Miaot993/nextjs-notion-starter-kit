@@ -75,7 +75,11 @@ body .notion-gallery-grid a > div:first-child {
     
     /* 🌟 这里改为 4px (之前是 6px) */
     border-radius: 4px !important;
-    
+
+    /* 👇👇👇 请在这里补上这一句！👇👇👇 */
+    box-shadow: none !important;  /* 彻底杀掉图片的投影 */
+    /* 👆👆👆 补上这一句！👆👆👆 */
+  
     overflow: hidden !important;
     position: relative !important;
     
