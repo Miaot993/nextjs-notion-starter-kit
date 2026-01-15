@@ -1,19 +1,13 @@
 /* =================================================================
-   CDO 终极方案：变量覆盖法 (Variable Override)
+   CDO 定制：Medium 风格博客列表 (左文右图)
    ================================================================= */
 
 :root {
-  /* 1. 强制杀掉圆角变量 */
   --notion-corner-radius: 4px !important;
-
-  /* 2. 强制杀掉投影变量 (这是最关键的一步！) */
-  --notion-card-shadow: none !important;
-  --notion-shadow-card: none !important; /*防止变量名不同，两个都写上*/
-  
-  /* 基础配置 */
   --fg-color: #37352f;
+  --fg-color-1: rgba(55, 53, 47, 0.6); /* 次要文字颜色 */
   --bg-color: #fff;
-  --notion-gap: 16px;
+  --notion-gap: 24px;
 }
 
 /* 基础重置 */
@@ -29,158 +23,152 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .toggle-dark-mode { padding: 8px; cursor: pointer; }
 
 /* =========================================================
-   画廊卡片 (Gallery Card)
+   核心修改：画廊视图 -> 博客列表 (Blog List Layout)
    ========================================================= */
-body .notion-gallery-card {
-    /* 暴力覆盖所有可能的投影来源 */
-    box-shadow: none !important; 
-    filter: none !important; 
-    -webkit-box-shadow: none !important;
 
-    /* 边框和背景 */
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    border-radius: 4px !important;
-    background: transparent !important;
-    transition: all 0.2s ease !important;
-}
-
-/* 悬停效果：只加深一点边框，绝不加投影 */
-body .notion-gallery-card:hover {
-    background: rgba(0, 0, 0, 0.02) !important; /* 极淡的灰色 */
-    border-color: rgba(0, 0, 0, 0.2) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: none !important;
-}
-
-/* 暗黑模式适配 */
-[data-theme='dark'] body .notion-gallery-card {
-    border-color: rgba(255, 255, 255, 0.1) !important;
-}
-[data-theme='dark'] body .notion-gallery-card:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-}
-
-/* 其他修复 */
-body .notion-aside-table-of-contents-header { display: none !important; }
-body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left: 0 !important; }
-body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
-body .notion-table-of-contents-item a { text-decoration: none !important; color: rgba(55,53,47,0.6) !important; }
-body .notion-table-of-contents-item a:hover { color: #0b6e99 !important; }
-body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; border-radius: 4px !important; }
-
-/* =================================================================
-   CDO 定制：博客列表布局 (Blog List Style)
-   目标：仿 new_wip 风格，左文右图，单栏排列
-   ================================================================= */
-
-/* 1. 将网格强制改为单列列表 */
-.index-page .notion-gallery-grid {
-    grid-template-columns: 1fr !important; /* 强制一列 */
-    max-width: 800px !important; /* 限制最大宽度，像博客一样居中 */
-    margin: 0 auto !important;
-    gap: 40px !important; /* 列表项之间的间距 */
+/* 1. 强制网格变成“单列列表” */
+body .notion-gallery-grid {
+    display: flex !important;
+    flex-direction: column !important; /* 垂直排列 */
+    gap: 0 !important; /* 卡片之间的间距由 padding 控制 */
+    border-top: none !important;
     padding-top: 20px !important;
+    max-width: 800px !important; /* 限制最大宽度，模仿阅读模式 */
+    margin: 0 auto !important;   /* 居中显示 */
 }
 
 /* 2. 改造卡片：变成弹性盒子，左右布局 */
-.index-page .notion-gallery-card {
+body .notion-gallery-card {
     display: flex !important;
-    flex-direction: row-reverse !important; /* 关键：反向排列，让图片在右，文字在左 */
+    flex-direction: row-reverse !important; /* 🌟 关键：让图片(第1元素)去右边，文字(第2元素)去左边 */
     align-items: flex-start !important; /* 顶部对齐 */
     justify-content: space-between !important;
     
-    height: auto !important; /* 高度自适应 */
-    min-height: 160px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 140px !important;
     
-    border: none !important; /* 去掉卡片边框 */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; /* 加一条底部分割线 */
-    border-radius: 0 !important; /* 去掉圆角 */
-    padding-bottom: 40px !important; /* 底部留白 */
+    /* 样式美化：去边框，加底部分割线 */
+    box-shadow: none !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 0 !important;
     background: transparent !important;
-    box-shadow: none !important; /* 确保无投影 */
+    
+    padding: 24px 0 !important; /* 上下留白 */
+    margin: 0 !important;
 }
 
-/* 悬停效果：不再上浮，而是标题变色 (可选) */
-.index-page .notion-gallery-card:hover {
+/* 悬停效果：无浮动，仅文字变色 */
+body .notion-gallery-card:hover {
+    background: transparent !important;
     transform: none !important;
-    background: transparent !important;
 }
 
-/* 3. 右侧图片样式 (原 Cover) */
-.index-page .notion-gallery-card .notion-page-cover-wrapper {
-    width: 240px !important; /* 固定图片宽度 */
-    height: 160px !important; /* 固定图片高度 */
-    flex-shrink: 0 !important; /* 防止被挤压 */
-    margin-left: 32px !important; /* 图片和文字的间距 */
+/* =========================================================
+   3. 右侧图片区域 (Thumbnail)
+   ========================================================= */
+body .notion-gallery-card .notion-page-cover-wrapper {
+    /* 强制固定图片大小，防止图片太巨大 */
+    width: 200px !important; 
+    height: 134px !important; 
     
-    border-radius: 8px !important; /* 图片圆角 */
+    flex-shrink: 0 !important; /* 禁止压缩图片 */
+    margin-left: 32px !important; /* 图片和左边文字的间距 */
+    
+    border-radius: 6px !important; /* 图片小圆角 */
     overflow: hidden !important;
-    position: relative !important;
+    display: block !important; /* 确保显示 */
 }
 
 /* 确保图片填满容器 */
-.index-page .notion-gallery-card .notion-page-cover {
+body .notion-gallery-card .notion-page-cover {
     height: 100% !important;
-    min-height: 100% !important;
+    width: 100% !important;
     object-fit: cover !important;
+    max-height: none !important; /* 覆盖原来的限制 */
 }
 
-/* 4. 左侧文字区域样式 */
-.index-page .notion-gallery-card .notion-collection-card-body {
+/* =========================================================
+   4. 左侧文字区域 (Content)
+   ========================================================= */
+body .notion-gallery-card .notion-collection-card-body {
     flex: 1 !important; /* 占满剩余空间 */
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    padding: 0 !important; /* 去掉默认内边距 */
-    overflow: visible !important;
+    justify-content: center !important; /* 内容垂直居中 */
+    padding: 0 !important;
+    min-height: 134px !important; /* 和图片一样高，保证对齐 */
 }
 
-/* 标题样式 (Notion 默认是 h3 或 span) */
-.index-page .notion-gallery-card .notion-property-title {
-    font-size: 1.25rem !important;
+/* 4.1 标题样式 */
+body .notion-gallery-card .notion-property-title {
+    font-size: 1.4rem !important; /* 字号加大 */
     font-weight: 700 !important;
+    line-height: 1.3 !important;
     margin-bottom: 8px !important;
-    color: var(--fg-color) !important;
+    color: #111 !important; /* 深黑色 */
 }
 
-/* 摘要/简介样式 (对应 Notion 里的 Text 属性) */
-.index-page .notion-gallery-card .notion-property-text {
-    font-size: 0.95rem !important;
-    color: var(--fg-color-3) !important; /* 灰色 */
-    line-height: 1.6 !important;
+/* 4.2 摘要/简介样式 (对应 Notion 里的 Text 属性) */
+body .notion-gallery-card .notion-property-text {
+    font-size: 1rem !important;
+    color: rgba(0,0,0,0.6) !important; /* 灰色 */
+    line-height: 1.5 !important;
     margin-bottom: 12px !important;
+    display: block !important;
     
-    /* 限制显示行数，多余的省略号 */
-    display: -webkit-box;
+    /* 限制显示 2 行，多余的省略号 */
+    display: -webkit-box !important;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     white-space: normal !important;
 }
 
-/* 日期/作者样式 */
-.index-page .notion-gallery-card .notion-property-date,
-.index-page .notion-gallery-card .notion-property-person {
+/* 4.3 日期/作者样式 */
+body .notion-gallery-card .notion-property-date,
+body .notion-gallery-card .notion-property-person {
     font-size: 0.85rem !important;
-    color: var(--fg-color-1) !important; /* 浅灰色 */
+    color: rgba(0,0,0,0.4) !important;
+    margin-top: auto !important; /* 推到底部 */
+}
+
+/* 隐藏不需要的图标 */
+body .notion-gallery-card .notion-property-icon {
+    display: none !important;
 }
 
 /* =========================================================
-   移动端适配 (手机上变回上下排列)
+   5. 移动端适配 (手机上变回上下结构)
    ========================================================= */
 @media (max-width: 768px) {
-    .index-page .notion-gallery-card {
-        flex-direction: column-reverse !important; /* 图片在下，文字在上？通常图片在上 */
-        /* 或者 column: 图片在上，文字在下 */
-        flex-direction: column !important; 
+    /* 恢复垂直排列：文字在上，图片在下，或者图片在上 */
+    body .notion-gallery-card {
+        flex-direction: column-reverse !important; /* 图片在上(Cover) 文字在下(Body) */
+        align-items: flex-start !important;
         height: auto !important;
+        padding: 20px 0 !important;
     }
     
-    .index-page .notion-gallery-card .notion-page-cover-wrapper {
+    /* 手机上图片占满宽度 */
+    body .notion-gallery-card .notion-page-cover-wrapper {
         width: 100% !important;
-        height: 200px !important;
+        height: 180px !important;
         margin-left: 0 !important;
         margin-bottom: 16px !important;
     }
+    
+    body .notion-gallery-card .notion-collection-card-body {
+        min-height: auto !important;
+    }
 }
+
+/* =========================================================
+   6. 其他修复 (目录、大图去阴影)
+   ========================================================= */
+body .notion-aside-table-of-contents-header { display: none !important; }
+body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left: 0 !important; }
+body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
+body .notion-table-of-contents-item a { text-decoration: none !important; color: var(--fg-color-1) !important; }
+body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; border-radius: 4px !important; }
