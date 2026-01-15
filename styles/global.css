@@ -1,11 +1,13 @@
 /* =================================================================
-   CDO 终极全能版 (修复布局+去投影+按钮复位)
+   CDO 全局样式 (微阴影版 Micro-Shadow Style)
    ================================================================= */
 
 :root {
-  --notion-corner-radius: 4px !important;
+  /* 定义极简微阴影变量 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   
-  /* 颜色变量 */
+  /* 基础颜色变量 */
   --fg-color: #37352f;
   --fg-color-0: rgba(55, 53, 47, 0.09);
   --fg-color-1: rgba(55, 53, 47, 0.16);
@@ -16,8 +18,9 @@
   --notion-red: #e03e3e;
   --notion-blue: #0b6e99;
   
-  /* 间距变量 */
+  /* 间距与圆角 */
   --notion-gap: 16px;
+  --notion-corner-radius: 4px !important;
 }
 
 [data-theme='dark'] {
@@ -28,30 +31,22 @@
 }
 
 /* =========================================================
-   1. 基础布局修复 (消除顶部和左右空白)
+   1. 基础布局修复
    ========================================================= */
-body {
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow-x: hidden; /* 防止横向滚动条 */
-}
-
-.notion-frame {
-    padding: 0 !important; /* 消除 Notion 内部的默认边距 */
-}
+body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
+.notion-frame { padding: 0 !important; }
 
 /* =========================================================
-   2. 亮暗模式按钮复位 (Position Fix)
+   2. 亮暗模式按钮复位
    ========================================================= */
 .custom-header-buttons {
     position: absolute !important;
-    top: 16px;       /* 距离顶部 16px */
-    right: 20px;     /* 距离右边 20px */
-    z-index: 1000;   /* 确保在最上层 */
+    top: 16px;
+    right: 20px;
+    z-index: 1000;
     display: flex;
     align-items: center;
 }
-
 .toggle-dark-mode {
     cursor: pointer;
     padding: 8px;
@@ -61,43 +56,50 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-.toggle-dark-mode:hover {
-    background: var(--bg-color-0);
-}
+.toggle-dark-mode:hover { background: var(--bg-color-0); }
 
 /* =========================================================
-   3. 数据库卡片投影彻底清除 (Shadow Kill)
+   3. 数据库卡片：微阴影改造 (重点在这里！)
    ========================================================= */
 body .notion-gallery-card {
-    /* 暴力清除所有相关的投影变量 */
-    --notion-card-shadow: none !important;
-    box-shadow: none !important; 
+    /* 🌟 这里就是改小后的投影：极淡 (3%透明度) */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03) !important;
     
     border-radius: 4px !important;
-    border: 1px solid var(--fg-color-1) !important;
-    background: transparent !important;
-    transition: background 0.2s ease, transform 0.2s ease !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important; /* 边框也调淡 */
+    background: #fff !important; /* 给卡片加个纯白底色，防止投影透视 */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+/* 鼠标悬停时：投影稍微明显一点，模拟浮起效果 */
 body .notion-gallery-card:hover {
-    background: rgba(55, 53, 47, 0.03) !important;
-    border-color: rgba(55, 53, 47, 0.3) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
     transform: translateY(-2px) !important;
-    box-shadow: none !important;
+    background: #fff !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
+/* 暗黑模式适配：暗黑模式下投影看不见，主要靠边框 */
+[data-theme='dark'] body .notion-gallery-card {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important; /* 暗黑模式建议不要投影，脏 */
+}
 [data-theme='dark'] body .notion-gallery-card:hover {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* =========================================================
-   4. 目录样式 & 其他图片修复
+   4. 目录修复 & 图片处理
    ========================================================= */
 body .notion-aside-table-of-contents-header { display: none !important; }
 body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left: 0 !important; }
 body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
 body .notion-table-of-contents-item a { text-decoration: none !important; color: var(--fg-color-3) !important; transition: color 0.2s ease; }
 body .notion-table-of-contents-item a:hover { color: var(--notion-blue) !important; }
-body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; }
+
+/* 顶部大图不需要投影 */
+body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { 
+    box-shadow: none !important; 
+}
