@@ -46,7 +46,11 @@ export function NotionPageHeader({
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        <Breadcrumbs block={block} rootOnly={true} />
+        {/* 👇👇👇 修改开始：加了一个 div 包裹，专门用来控制字数 👇👇👇 */}
+        <div className='breadcrumbs-limit'>
+          <Breadcrumbs block={block} rootOnly={true} />
+        </div>
+        {/* 👆👆👆 修改结束 👆👆👆 */}
 
         <div className='notion-nav-header-rhs breadcrumbs'>
           {navigationLinks
