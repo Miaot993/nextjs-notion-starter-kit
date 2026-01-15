@@ -376,75 +376,76 @@ footer > div,
 }
 
 /* =================================================================
-   CDO 终极定制：强制覆盖 Notion 原生样式 (High Priority)
+   CDO 终极修正：强制扁平化与小圆角 (2025版)
    ================================================================= */
 
-/* --- 1. 彻底压扁 Hero 大图 (针对 Next.js Image 复杂结构) --- */
+/* --- 1. 彻底修复：顶部大图 (Hero Image) --- */
 
-/* 针对外层容器 */
+/* 针对 Notion 图片块的最外层容器 */
 .notion-block-image {
-  border-radius: 8px !important;
-  box-shadow: none !important;
+  /* 强制去除外层可能存在的大圆角 */
+  border-radius: 8px !important; 
 }
 
-/* 针对内部所有可能产生样式的元素 (img, span) - 实施“株连九族”式覆盖 */
+/* 针对图片本身，以及 Next.js 自动生成的包裹层 */
 .notion-block-image img,
-.notion-block-image span {
-  border-radius: 8px !important;
-  box-shadow: none !important;
-}
-
-/* --- 2. 彻底重构画廊视图 (Gallery Grid) --- */
-
-/* 强制修改网格容器 */
-.notion-gallery-grid {
-  /* 你的参考站间距很小，这里设为 12px 或 16px */
-  gap: 16px !important; 
-  border-top: none !important; /* 去掉有时会出现的顶部分割线 */
-  padding-top: 10px !important;
-}
-
-/* 强制修改卡片本体 */
-.notion-gallery-card {
-  /* 扁平化核心：去掉默认的大阴影，改为极细边框 */
-  box-shadow: none !important;
-  border: 1px solid rgba(135, 131, 120, 0.15) !important;
-  background: transparent !important; /* 去掉背景色，更通透 */
+.notion-block-image > span,
+.notion-block-image .notion-asset-wrapper {
+  /* 核心：强制把圆角改小 (你参考图那种利落的感觉) */
+  border-radius: 8px !important; 
   
-  /* 圆角改小，更商务 */
+  /* 核心：强制杀掉投影 */
+  box-shadow: none !important;
+  filter: none !important; /* 防止有滤镜投影 */
+}
+
+/* --- 2. 彻底修复：数据库卡片 (Gallery Card) --- */
+
+/* 针对卡片本体 */
+.notion-gallery-card {
+  /* 核心：杀掉卡片的大投影 */
+  box-shadow: none !important;
+  
+  /* 核心：新需求 - 把卡片圆角也改小 (比如 6px) */
   border-radius: 6px !important;
   
-  /* 交互动画 */
-  transition: transform 0.2s ease, background 0.2s ease !important;
+  /* 扁平化处理：加一根极细的灰线代替投影，更有质感 */
+  border: 1px solid rgba(135, 131, 120, 0.15) !important;
+  
+  /* 去掉默认白色背景，让它透气 */
+  background: transparent !important; 
+  
+  /* 优化交互动画 */
+  transition: all 0.2s ease !important;
 }
 
-/* 悬停交互 */
-.notion-gallery-card:hover {
-  background: rgba(128, 128, 128, 0.03) !important;
-  transform: translateY(-2px) !important;
-  border-color: rgba(135, 131, 120, 0.4) !important;
-}
-
-/* --- 3. 细节微调：卡片封面图 --- */
+/* 针对卡片里的封面图容器 */
 .notion-gallery-card .notion-page-cover-wrapper {
-  /* 确保封面图顶部也有圆角，不然会溢出 */
+  /* 封面图顶部的圆角要跟随卡片 */
   border-top-left-radius: 5px !important;
   border-top-right-radius: 5px !important;
-  height: 180px !important; /* 强制统一高度（可选，防止参差不齐） */
-  object-fit: cover !important;
+  border-bottom: none !important;
 }
 
-/* --- 4. 细节微调：卡片文字区 --- */
-.notion-gallery-card .notion-collection-card-body {
-  /* 压缩内边距，让文字紧凑 */
-  padding: 10px 12px !important; 
+/* 针对卡片里的图片本身 */
+.notion-gallery-card .notion-page-cover {
+  border-radius: 0 !important; /* 内部图片不需要圆角，交给容器切 */
 }
 
-/* --- 暗黑模式适配 --- */
+/* --- 3. 鼠标悬停交互 (Hover) --- */
+.notion-gallery-card:hover {
+  /* 悬停时：不要投影，而是让背景微微变灰，这是高级感的来源 */
+  background: rgba(128, 128, 128, 0.04) !important;
+  border-color: rgba(135, 131, 120, 0.3) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important; /* 再次确保悬停也没投影 */
+}
+
+/* --- 4. 暗黑模式适配 --- */
 [data-theme="dark"] .notion-gallery-card {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 [data-theme="dark"] .notion-gallery-card:hover {
   background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
