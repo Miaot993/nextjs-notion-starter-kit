@@ -1,139 +1,107 @@
 /* =================================================================
-   CDO 终极全能版样式 (The Ultimate Merged Fix)
-   包含：强制小圆角变量 | 目录样式还原 | 扁平化去投影
+   CDO 定制样式：扁平化卡片 + 优雅悬停 + 目录修复
    ================================================================= */
 
 :root {
-  /* 🌟 核心修改：通过变量控制圆角，这是最有效的方法 */
-  --notion-corner-radius: 4px !important;
-  
-  /* 定义颜色变量 */
+  /* 定义基础变量 */
   --fg-color: #37352f;
   --fg-color-0: rgba(55, 53, 47, 0.09);
   --fg-color-1: rgba(55, 53, 47, 0.16);
   --fg-color-2: rgba(55, 53, 47, 0.6);
   --fg-color-3: rgba(55, 53, 47, 0.8);
-  --fg-color-4: #000;
   --bg-color: #fff;
   --bg-color-0: rgba(135, 131, 120, 0.15);
-  --bg-color-1: #f7f6f3;
-  --bg-color-2: rgba(135, 131, 120, 0.15);
   
   --notion-red: #e03e3e;
-  --notion-pink: #ad1a72;
   --notion-blue: #0b6e99;
-  --notion-purple: #6940a5;
-  --notion-teal: #4d6461;
-  --notion-yellow: #dfab01;
-  --notion-orange: #d9730d;
-  --notion-brown: #64473a;
-  --notion-gray: #9b9a97;
-  
   --notion-gap: 16px;
 }
 
 [data-theme='dark'] {
   --fg-color: rgba(255, 255, 255, 0.9);
-  --fg-color-0: rgba(255, 255, 255, 0.13);
   --fg-color-1: rgba(255, 255, 255, 0.2);
   --fg-color-2: rgba(255, 255, 255, 0.6);
-  --fg-color-3: rgba(255, 255, 255, 0.8);
-  --fg-color-4: #fff;
   --bg-color: #2f3437;
-  --bg-color-0: rgba(255, 255, 255, 0.1);
-  --bg-color-1: #3f4447;
-  --bg-color-2: rgba(255, 255, 255, 0.1);
 }
 
 /* =========================================================
-   1. 图片与卡片圆角修复 (使用变量+暴力覆盖)
+   1. 数据库卡片 (Gallery Card) - 扁平 & 极淡悬停
    ========================================================= */
 
-/* 针对内容图片块 */
-body .notion-block-image img,
-body .notion-block-image .notion-asset-wrapper,
-body .notion-block-image > span {
-    border-radius: 4px !important;
-    box-shadow: none !important;
+/* 修复网格间距 */
+body .notion-gallery-grid {
+    grid-gap: 16px !important;
+    gap: 16px !important;
+    border-top: none !important;
+    padding-top: 4px !important;
 }
 
-/* 针对顶部大图封面 */
-body .notion-page-cover-wrapper,
-body .notion-page-cover,
-body .notion-page-cover span,
-body .notion-page-cover img {
-    border-radius: 4px !important;
-    box-shadow: none !important;
-}
-
-/* 针对画廊卡片 */
+/* 卡片本体：无投影，细边框 */
 body .notion-gallery-card {
-    border-radius: 4px !important;
-    box-shadow: none !important;
+    box-shadow: none !important; /* ✅ 彻底去掉投影 */
     border: 1px solid var(--fg-color-1) !important;
     background: transparent !important;
-    transition: all 0.2s ease !important;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease !important;
 }
 
-/* 卡片悬停效果 */
+/* 鼠标悬停效果：极淡背景 + 边框加深 */
 body .notion-gallery-card:hover {
-    background: var(--bg-color-0) !important;
+    /* ✅ 修改这里：用 0.03 透明度，非常非常浅，不再是深灰 */
+    background: rgba(55, 53, 47, 0.03) !important; 
+    
+    /* 悬停时边框稍微变深一点，增加精致感 */
+    border-color: rgba(55, 53, 47, 0.3) !important;
+    
     transform: translateY(-2px) !important;
-    border-color: var(--fg-color-2) !important;
-    box-shadow: none !important;
+    box-shadow: none !important; /* 确保悬停也没投影 */
 }
 
-/* 覆盖所有可能漏网的图片圆角 */
-img[style*="border-radius"] {
-    border-radius: 4px !important;
+/* 暗黑模式下的悬停微调 */
+[data-theme='dark'] body .notion-gallery-card:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* =========================================================
-   2. 目录样式修复 (Table of Contents)
-   还原到 Figure 1 的清爽样式
+   2. 目录样式修复 (保留你喜欢的样式)
    ========================================================= */
 
-/* 隐藏侧边栏目录的顶部标题 "TABLE OF CONTENTS" */
 body .notion-aside-table-of-contents-header {
     display: none !important;
 }
 
-/* 调整侧边栏目录的容器位置 */
 body .notion-aside-table-of-contents {
     margin-top: 8px !important;
     padding-left: 0 !important;
 }
 
-/* 针对每一行目录 */
 body .notion-table-of-contents-item {
     list-style: none !important;
     padding: 2px 0 !important;
     line-height: 1.6 !important;
 }
 
-/* 针对目录链接文字 */
 body .notion-table-of-contents-item a {
     text-decoration: none !important;
-    color: var(--fg-color-3) !important; /* 浅灰色文字 */
+    color: var(--fg-color-3) !important;
     font-size: 14px !important;
     border-bottom: 1px solid transparent;
     transition: color 0.2s ease;
 }
 
-/* 鼠标悬停变蓝 */
 body .notion-table-of-contents-item a:hover {
     color: var(--notion-blue) !important;
     background: transparent !important;
-    text-decoration: none !important;
 }
 
-/* 处理缩进，保持层级感 */
 body .notion-table-of-contents-item-indent-1 { margin-left: 12px !important; }
 body .notion-table-of-contents-item-indent-2 { margin-left: 24px !important; }
 
-/* 针对首页网格布局的微调 */
-body .notion-gallery-grid {
-    gap: 16px !important;
-    border-top: none !important;
-    padding-top: 4px !important;
+/* =========================================================
+   3. 顶部大图 (去投影，保持现状)
+   ========================================================= */
+body .notion-page-cover-wrapper,
+body .notion-page-cover,
+body .notion-block-image img {
+    box-shadow: none !important;
 }
