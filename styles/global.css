@@ -45,8 +45,8 @@ body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .custom-header-buttons {
     position: fixed !important; 
     /* 1. 在这里修改位置 */
-    top: 8px;    
-    right: 8px; 
+    top: 6px;    
+    right: 6px; 
     
     z-index: 9999 !important;
     display: flex; 
