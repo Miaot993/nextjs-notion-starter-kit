@@ -1,105 +1,70 @@
 /* =================================================================
-   CDO 全局样式 (微阴影版 Micro-Shadow Style)
+   CDO 终极方案：变量覆盖法 (Variable Override)
    ================================================================= */
 
 :root {
-  /* 定义极简微阴影变量 */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  
-  /* 基础颜色变量 */
-  --fg-color: #37352f;
-  --fg-color-0: rgba(55, 53, 47, 0.09);
-  --fg-color-1: rgba(55, 53, 47, 0.16);
-  --fg-color-2: rgba(55, 53, 47, 0.6);
-  --fg-color-3: rgba(55, 53, 47, 0.8);
-  --bg-color: #fff;
-  --bg-color-0: rgba(135, 131, 120, 0.15);
-  --notion-red: #e03e3e;
-  --notion-blue: #0b6e99;
-  
-  /* 间距与圆角 */
-  --notion-gap: 16px;
+  /* 1. 强制杀掉圆角变量 */
   --notion-corner-radius: 4px !important;
+
+  /* 2. 强制杀掉投影变量 (这是最关键的一步！) */
+  --notion-card-shadow: none !important;
+  --notion-shadow-card: none !important; /*防止变量名不同，两个都写上*/
+  
+  /* 基础配置 */
+  --fg-color: #37352f;
+  --bg-color: #fff;
+  --notion-gap: 16px;
 }
 
-[data-theme='dark'] {
-  --fg-color: rgba(255, 255, 255, 0.9);
-  --fg-color-1: rgba(255, 255, 255, 0.2);
-  --fg-color-2: rgba(255, 255, 255, 0.6);
-  --bg-color: #2f3437;
-}
-
-/* =========================================================
-   1. 基础布局修复
-   ========================================================= */
+/* 基础重置 */
 body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .notion-frame { padding: 0 !important; }
 
-/* =========================================================
-   2. 亮暗模式按钮复位
-   ========================================================= */
+/* 亮暗模式按钮复位 */
 .custom-header-buttons {
     position: absolute !important;
-    top: 16px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
+    top: 16px; right: 20px; z-index: 1000;
+    display: flex; align-items: center;
 }
-.toggle-dark-mode {
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    transition: background 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.toggle-dark-mode:hover { background: var(--bg-color-0); }
+.toggle-dark-mode { padding: 8px; cursor: pointer; }
 
 /* =========================================================
-   3. 数据库卡片：微阴影改造 (重点在这里！)
+   画廊卡片 (Gallery Card)
    ========================================================= */
 body .notion-gallery-card {
-    /* 🌟 这里就是改小后的投影：极淡 (3%透明度) */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03) !important;
-    
+    /* 暴力覆盖所有可能的投影来源 */
+    box-shadow: none !important; 
+    filter: none !important; 
+    -webkit-box-shadow: none !important;
+
+    /* 边框和背景 */
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
     border-radius: 4px !important;
-    border: 1px solid rgba(0, 0, 0, 0.06) !important; /* 边框也调淡 */
-    background: #fff !important; /* 给卡片加个纯白底色，防止投影透视 */
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* 鼠标悬停时：投影稍微明显一点，模拟浮起效果 */
-body .notion-gallery-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
-    transform: translateY(-2px) !important;
-    background: #fff !important;
-    border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-/* 暗黑模式适配：暗黑模式下投影看不见，主要靠边框 */
-[data-theme='dark'] body .notion-gallery-card {
     background: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: none !important; /* 暗黑模式建议不要投影，脏 */
+    transition: all 0.2s ease !important;
+}
+
+/* 悬停效果：只加深一点边框，绝不加投影 */
+body .notion-gallery-card:hover {
+    background: rgba(0, 0, 0, 0.02) !important; /* 极淡的灰色 */
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: none !important;
+}
+
+/* 暗黑模式适配 */
+[data-theme='dark'] body .notion-gallery-card {
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 [data-theme='dark'] body .notion-gallery-card:hover {
     background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* =========================================================
-   4. 目录修复 & 图片处理
-   ========================================================= */
+/* 其他修复 */
 body .notion-aside-table-of-contents-header { display: none !important; }
 body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left: 0 !important; }
 body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
-body .notion-table-of-contents-item a { text-decoration: none !important; color: var(--fg-color-3) !important; transition: color 0.2s ease; }
-body .notion-table-of-contents-item a:hover { color: var(--notion-blue) !important; }
-
-/* 顶部大图不需要投影 */
-body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { 
-    box-shadow: none !important; 
-}
+body .notion-table-of-contents-item a { text-decoration: none !important; color: rgba(55,53,47,0.6) !important; }
+body .notion-table-of-contents-item a:hover { color: #0b6e99 !important; }
+body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; border-radius: 4px !important; }
