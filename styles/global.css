@@ -1,9 +1,13 @@
 /* =================================================================
-   CDO 全局样式重写 (Final Plus Version)
-   包含了：全局变量、大图/卡片基础修复、以及**目录美化**
+   CDO 终极全能版样式 (The Ultimate Merged Fix)
+   包含：强制小圆角变量 | 目录样式还原 | 扁平化去投影
    ================================================================= */
 
 :root {
+  /* 🌟 核心修改：通过变量控制圆角，这是最有效的方法 */
+  --notion-corner-radius: 4px !important;
+  
+  /* 定义颜色变量 */
   --fg-color: #37352f;
   --fg-color-0: rgba(55, 53, 47, 0.09);
   --fg-color-1: rgba(55, 53, 47, 0.16);
@@ -14,6 +18,7 @@
   --bg-color-0: rgba(135, 131, 120, 0.15);
   --bg-color-1: #f7f6f3;
   --bg-color-2: rgba(135, 131, 120, 0.15);
+  
   --notion-red: #e03e3e;
   --notion-pink: #ad1a72;
   --notion-blue: #0b6e99;
@@ -24,7 +29,6 @@
   --notion-brown: #64473a;
   --notion-gray: #9b9a97;
   
-  /* 定义新的间距变量 */
   --notion-gap: 16px;
 }
 
@@ -39,118 +43,97 @@
   --bg-color-0: rgba(255, 255, 255, 0.1);
   --bg-color-1: #3f4447;
   --bg-color-2: rgba(255, 255, 255, 0.1);
-  --notion-red: #ff7369;
-  --notion-pink: #e255a1;
-  --notion-blue: #529cca;
-  --notion-purple: #9a6dd7;
-  --notion-teal: #4dab9a;
-  --notion-yellow: #ffdc49;
-  --notion-orange: #ffa344;
-  --notion-brown: #937264;
-  --notion-gray: #979a9b;
 }
 
 /* =========================================================
-   1. 核心修复：顶部大图 & 内容图片
+   1. 图片与卡片圆角修复 (使用变量+暴力覆盖)
    ========================================================= */
 
-/* 针对 Notion 内容里的 Image Block */
-body .notion-block-image {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin-top: 0 !important; 
-  margin-bottom: 2rem !important;
-}
-
-/* ⚠️ 穿透 Next.js Image 的外层结构 */
+/* 针对内容图片块 */
 body .notion-block-image img,
+body .notion-block-image .notion-asset-wrapper,
 body .notion-block-image > span {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  max-height: 60vh !important;
-  object-fit: cover !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
 }
 
-/* 针对 Notion Page Cover */
+/* 针对顶部大图封面 */
 body .notion-page-cover-wrapper,
 body .notion-page-cover,
 body .notion-page-cover span,
 body .notion-page-cover img {
-    border-radius: 0 !important;
+    border-radius: 4px !important;
     box-shadow: none !important;
-    min-height: 30vh !important;
 }
 
-
-/* =========================================================
-   2. 核心修复：数据库卡片 (Gallery View)
-   ========================================================= */
-
-body .notion-gallery-grid {
-  grid-gap: 16px !important;
-  gap: 16px !important;
-  border-top: none !important;
-  padding-top: 4px !important;
-}
-
+/* 针对画廊卡片 */
 body .notion-gallery-card {
-  box-shadow: none !important;
-  border-radius: 4px !important;
-  border: 1px solid var(--fg-color-1) !important;
-  background: transparent !important;
-  transition: all 0.2s ease !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    border: 1px solid var(--fg-color-1) !important;
+    background: transparent !important;
+    transition: all 0.2s ease !important;
 }
 
+/* 卡片悬停效果 */
 body .notion-gallery-card:hover {
-  background: var(--bg-color-0) !important;
-  transform: translateY(-2px) !important;
-  border-color: var(--fg-color-2) !important;
+    background: var(--bg-color-0) !important;
+    transform: translateY(-2px) !important;
+    border-color: var(--fg-color-2) !important;
+    box-shadow: none !important;
 }
 
-body .notion-gallery-card .notion-page-cover-wrapper {
-  border-top-left-radius: 3px !important;
-  border-top-right-radius: 3px !important;
-  border-bottom: none !important;
-}
-
-body .notion-gallery-card .notion-collection-card-body {
-    padding: 12px 10px !important;
-}
-
-body .notion-gallery-card .notion-property-icon {
-    display: none !important;
+/* 覆盖所有可能漏网的图片圆角 */
+img[style*="border-radius"] {
+    border-radius: 4px !important;
 }
 
 /* =========================================================
-   3. 核心修复：右侧目录 (Table of Contents)
-   目标：隐藏标题，美化列表项，还原到你想要的样式
+   2. 目录样式修复 (Table of Contents)
+   还原到 Figure 1 的清爽样式
    ========================================================= */
 
-/* 隐藏 "TABLE OF CONTENTS" 标题 */
+/* 隐藏侧边栏目录的顶部标题 "TABLE OF CONTENTS" */
 body .notion-aside-table-of-contents-header {
     display: none !important;
 }
 
-/* 美化目录列表 */
-body .notion-table-of-contents {
-    padding-left: 0 !important; /* 去掉默认的左内边距 */
+/* 调整侧边栏目录的容器位置 */
+body .notion-aside-table-of-contents {
+    margin-top: 8px !important;
+    padding-left: 0 !important;
 }
 
-/* 美化目录项 */
+/* 针对每一行目录 */
 body .notion-table-of-contents-item {
-    list-style: none !important; /* 去掉列表前的点或数字 */
-    padding: 4px 0 !important;   /* 调整每个条目的上下间距 */
+    list-style: none !important;
+    padding: 2px 0 !important;
+    line-height: 1.6 !important;
 }
 
-/* 美化目录链接 */
+/* 针对目录链接文字 */
 body .notion-table-of-contents-item a {
-    color: var(--fg-color-2) !important; /* 使用次级文字颜色 */
-    text-decoration: none !important;    /* 去掉下划线 */
-    transition: color 0.2s ease !important;
-    font-size: 0.9rem !important;        /* 稍微调小字体 */
+    text-decoration: none !important;
+    color: var(--fg-color-3) !important; /* 浅灰色文字 */
+    font-size: 14px !important;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease;
 }
 
-/* 鼠标悬停时链接变色 */
+/* 鼠标悬停变蓝 */
 body .notion-table-of-contents-item a:hover {
-    color: var(--notion-blue) !important; /* 悬停时变成 Notion 蓝 */
+    color: var(--notion-blue) !important;
+    background: transparent !important;
+    text-decoration: none !important;
+}
+
+/* 处理缩进，保持层级感 */
+body .notion-table-of-contents-item-indent-1 { margin-left: 12px !important; }
+body .notion-table-of-contents-item-indent-2 { margin-left: 24px !important; }
+
+/* 针对首页网格布局的微调 */
+body .notion-gallery-grid {
+    gap: 16px !important;
+    border-top: none !important;
+    padding-top: 4px !important;
 }
