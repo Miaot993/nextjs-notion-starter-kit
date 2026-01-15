@@ -30,7 +30,7 @@ import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import { Footer } from './Footer'
-import { GitHubShareButton } from './GitHubShareButton'
+// ❌ 已删除 GitHubShareButton 引用
 import { Loading } from './Loading'
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
@@ -44,69 +44,37 @@ import styles from './styles.module.css'
 
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
-    // add / remove any prism syntaxes here
     await Promise.allSettled([
-      // @ts-ignore
       import('prismjs/components/prism-markup-templating.js'),
-      // @ts-ignore
       import('prismjs/components/prism-markup.js'),
-      // @ts-ignore
       import('prismjs/components/prism-bash.js'),
-      // @ts-ignore
       import('prismjs/components/prism-c.js'),
-      // @ts-ignore
       import('prismjs/components/prism-cpp.js'),
-      // @ts-ignore
       import('prismjs/components/prism-csharp.js'),
-      // @ts-ignore
       import('prismjs/components/prism-docker.js'),
-      // @ts-ignore
       import('prismjs/components/prism-java.js'),
-      // @ts-ignore
       import('prismjs/components/prism-js-templates.js'),
-      // @ts-ignore
       import('prismjs/components/prism-coffeescript.js'),
-      // @ts-ignore
       import('prismjs/components/prism-diff.js'),
-      // @ts-ignore
       import('prismjs/components/prism-git.js'),
-      // @ts-ignore
       import('prismjs/components/prism-go.js'),
-      // @ts-ignore
       import('prismjs/components/prism-graphql.js'),
-      // @ts-ignore
       import('prismjs/components/prism-handlebars.js'),
-      // @ts-ignore
       import('prismjs/components/prism-less.js'),
-      // @ts-ignore
       import('prismjs/components/prism-makefile.js'),
-      // @ts-ignore
       import('prismjs/components/prism-markdown.js'),
-      // @ts-ignore
       import('prismjs/components/prism-objectivec.js'),
-      // @ts-ignore
       import('prismjs/components/prism-ocaml.js'),
-      // @ts-ignore
       import('prismjs/components/prism-python.js'),
-      // @ts-ignore
       import('prismjs/components/prism-reason.js'),
-      // @ts-ignore
       import('prismjs/components/prism-rust.js'),
-      // @ts-ignore
       import('prismjs/components/prism-sass.js'),
-      // @ts-ignore
       import('prismjs/components/prism-scss.js'),
-      // @ts-ignore
       import('prismjs/components/prism-solidity.js'),
-      // @ts-ignore
       import('prismjs/components/prism-sql.js'),
-      // @ts-ignore
       import('prismjs/components/prism-stylus.js'),
-      // @ts-ignore
       import('prismjs/components/prism-swift.js'),
-      // @ts-ignore
       import('prismjs/components/prism-wasm.js'),
-      // @ts-ignore
       import('prismjs/components/prism-yaml.js')
     ])
     return m.Code
@@ -218,31 +186,22 @@ export function NotionPage({
   )
 
   const isLiteMode = lite === 'true'
-
-  // --- CSO 修改: 获取 toggleDarkMode ---
   const { isDarkMode, toggleDarkMode } = useDarkMode()
-  // -----------------------------------
 
   const siteMapPageUrl = React.useMemo(() => {
     const params: any = {}
     if (lite) params.lite = lite
-
     const searchParams = new URLSearchParams(params)
     return site ? mapPageUrl(site, recordMap!, searchParams) : undefined
   }, [site, recordMap, lite])
 
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]!]?.value
-
   const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
 
-  // ==================================================
-  // CSO 暴力解锁补丁：强制显示目录
-  // ==================================================
   const showTableOfContents = true 
   const minTableOfContentsItems = 1
-  // ==================================================
 
   const pageAside = React.useMemo(
     () => (
@@ -267,14 +226,6 @@ export function NotionPage({
 
   const title = getBlockTitle(block, recordMap) || site.name
 
-  console.log('notion page', {
-    isDev: config.isDev,
-    title,
-    pageId,
-    rootNotionPageId: site.rootNotionPageId,
-    recordMap
-  })
-
   if (!config.isServer) {
     const g = window as any
     g.pageId = pageId
@@ -296,28 +247,17 @@ export function NotionPage({
   const socialDescription =
     getPageProperty<string>('Description', block, recordMap) ||
     config.description
-
-  // ==============================================================
-  // CSO 核心功能：VIP 多级锁定逻辑 (终极版)
-  // ==============================================================
   
-  // 1. 获取当前页面 ID 和 父级 ID
+  // VIP 逻辑
   const currentBlockId = (keys[0] || '').replace(/-/g, '')
   // @ts-ignore
   const parentId = (block?.parent_id || '').replace(/-/g, '')
-
-  // 2. VIP 页面 ID 列表 (这里只填【最顶层】的 VIP 页面 ID 即可)
   const LOCKED_PAGE_IDS = [
-    '2e8a2b748e4d80e58739d25aa9a83220', // VIP页面1
-    '2e8a2b748e4d80faa623eea08adf2f66', // VIP页面2
+    '2e8a2b748e4d80e58739d25aa9a83220', 
+    '2e8a2b748e4d80faa623eea08adf2f66', 
   ]
-
-  // 3. 智能判断：
-  // 规则A: 如果我自己是 VIP，锁住。
-  // 规则B: 如果我的爸爸是 VIP，我也锁住。(这样子页面就自动安全了)
   const shouldLock = LOCKED_PAGE_IDS.includes(currentBlockId) || LOCKED_PAGE_IDS.includes(parentId)
 
-  // 4. 封装内容
   const pageContent = (
     <>
       <PageHead
@@ -330,7 +270,7 @@ export function NotionPage({
         isBlogPost={isBlogPost}
       />
 
-      {/* ======================= CSO植入开始 ======================= */}
+      {/* 这里的 class custom-header-buttons 需要配合 global.css 里的定位代码 */}
       <div className="custom-header-buttons">
         <a
           className="toggle-dark-mode"
@@ -340,7 +280,6 @@ export function NotionPage({
           {isDarkMode ? <IoMoonSharp /> : <IoSunnyOutline />}
         </a>
       </div>
-      {/* ======================= CSO植入结束 ======================= */}
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
       {isDarkMode && <BodyClassName className='dark-mode' />}
@@ -369,55 +308,10 @@ export function NotionPage({
         pageAside={pageAside}
         footer={footer}
       />
-
-      <GitHubShareButton />
-      
-      {/* =========================================================== */}
-      {/* CSO 终极样式修正：强制扁平化、小圆角 (4px)、去投影 */}
-      {/* =========================================================== */}
-      <style jsx global>{`
-        /* 1. 顶部大图 (Hero) - 强制小圆角、去投影 */
-        .notion-block-image img,
-        .notion-block-image .notion-asset-wrapper {
-          border-radius: 4px !important; /* 统一 4px 小圆角 */
-          box-shadow: none !important;
-          max-height: 50vh !important; /* 防止图片过高 */
-          object-fit: cover !important;
-        }
-
-        /* 消除图片外层多余的圆角遮罩 */
-        .notion-block-image > span {
-            border-radius: 4px !important;
-        }
-
-        /* 2. 画廊卡片 (Gallery) - 强制扁平化和小圆角 */
-        .notion-gallery-card {
-          border-radius: 4px !important; /* 卡片小圆角 */
-          box-shadow: none !important;   /* 去掉卡片投影 */
-          border: 1px solid rgba(135, 131, 120, 0.15) !important; /* 加细边框 */
-          background: transparent !important;
-        }
-        
-        /* 3. 卡片悬停效果 - 依然无投影 */
-        .notion-gallery-card:hover {
-          box-shadow: none !important;
-          background: rgba(128, 128, 128, 0.04) !important;
-          transform: translateY(-2px);
-          border-color: rgba(135, 131, 120, 0.3) !important;
-        }
-
-        /* 4. 暗黑模式适配 */
-        [data-theme="dark"] .notion-gallery-card {
-          border-color: rgba(255, 255, 255, 0.1) !important;
-        }
-        [data-theme="dark"] .notion-gallery-card:hover {
-          background: rgba(255, 255, 255, 0.05) !important;
-        }
-      `}</style>
+      {/* ❌ 删掉了底部的 GitHubShareButton */}
     </>
   )
 
-  // 5. 最终渲染
   if (shouldLock) {
     return (
       <PasswordGate>
@@ -427,5 +321,4 @@ export function NotionPage({
   }
 
   return pageContent
-  // ==============================================================
 }
