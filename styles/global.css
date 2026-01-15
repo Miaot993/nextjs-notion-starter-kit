@@ -1,9 +1,11 @@
 /* =================================================================
-   CDO 定制样式：扁平化卡片 + 优雅悬停 + 目录修复
+   CDO 终极全能版 (修复布局+去投影+按钮复位)
    ================================================================= */
 
 :root {
-  /* 定义基础变量 */
+  --notion-corner-radius: 4px !important;
+  
+  /* 颜色变量 */
   --fg-color: #37352f;
   --fg-color-0: rgba(55, 53, 47, 0.09);
   --fg-color-1: rgba(55, 53, 47, 0.16);
@@ -11,9 +13,10 @@
   --fg-color-3: rgba(55, 53, 47, 0.8);
   --bg-color: #fff;
   --bg-color-0: rgba(135, 131, 120, 0.15);
-  
   --notion-red: #e03e3e;
   --notion-blue: #0b6e99;
+  
+  /* 间距变量 */
   --notion-gap: 16px;
 }
 
@@ -25,83 +28,76 @@
 }
 
 /* =========================================================
-   1. 数据库卡片 (Gallery Card) - 扁平 & 极淡悬停
+   1. 基础布局修复 (消除顶部和左右空白)
    ========================================================= */
-
-/* 修复网格间距 */
-body .notion-gallery-grid {
-    grid-gap: 16px !important;
-    gap: 16px !important;
-    border-top: none !important;
-    padding-top: 4px !important;
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden; /* 防止横向滚动条 */
 }
 
-/* 卡片本体：无投影，细边框 */
+.notion-frame {
+    padding: 0 !important; /* 消除 Notion 内部的默认边距 */
+}
+
+/* =========================================================
+   2. 亮暗模式按钮复位 (Position Fix)
+   ========================================================= */
+.custom-header-buttons {
+    position: absolute !important;
+    top: 16px;       /* 距离顶部 16px */
+    right: 20px;     /* 距离右边 20px */
+    z-index: 1000;   /* 确保在最上层 */
+    display: flex;
+    align-items: center;
+}
+
+.toggle-dark-mode {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-dark-mode:hover {
+    background: var(--bg-color-0);
+}
+
+/* =========================================================
+   3. 数据库卡片投影彻底清除 (Shadow Kill)
+   ========================================================= */
 body .notion-gallery-card {
-    box-shadow: none !important; /* ✅ 彻底去掉投影 */
+    /* 暴力清除所有相关的投影变量 */
+    --notion-card-shadow: none !important;
+    box-shadow: none !important; 
+    
+    border-radius: 4px !important;
     border: 1px solid var(--fg-color-1) !important;
     background: transparent !important;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease !important;
+    transition: background 0.2s ease, transform 0.2s ease !important;
 }
 
-/* 鼠标悬停效果：极淡背景 + 边框加深 */
 body .notion-gallery-card:hover {
-    /* ✅ 修改这里：用 0.03 透明度，非常非常浅，不再是深灰 */
-    background: rgba(55, 53, 47, 0.03) !important; 
-    
-    /* 悬停时边框稍微变深一点，增加精致感 */
+    background: rgba(55, 53, 47, 0.03) !important;
     border-color: rgba(55, 53, 47, 0.3) !important;
-    
     transform: translateY(-2px) !important;
-    box-shadow: none !important; /* 确保悬停也没投影 */
+    box-shadow: none !important;
 }
 
-/* 暗黑模式下的悬停微调 */
 [data-theme='dark'] body .notion-gallery-card:hover {
     background: rgba(255, 255, 255, 0.04) !important;
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* =========================================================
-   2. 目录样式修复 (保留你喜欢的样式)
+   4. 目录样式 & 其他图片修复
    ========================================================= */
-
-body .notion-aside-table-of-contents-header {
-    display: none !important;
-}
-
-body .notion-aside-table-of-contents {
-    margin-top: 8px !important;
-    padding-left: 0 !important;
-}
-
-body .notion-table-of-contents-item {
-    list-style: none !important;
-    padding: 2px 0 !important;
-    line-height: 1.6 !important;
-}
-
-body .notion-table-of-contents-item a {
-    text-decoration: none !important;
-    color: var(--fg-color-3) !important;
-    font-size: 14px !important;
-    border-bottom: 1px solid transparent;
-    transition: color 0.2s ease;
-}
-
-body .notion-table-of-contents-item a:hover {
-    color: var(--notion-blue) !important;
-    background: transparent !important;
-}
-
-body .notion-table-of-contents-item-indent-1 { margin-left: 12px !important; }
-body .notion-table-of-contents-item-indent-2 { margin-left: 24px !important; }
-
-/* =========================================================
-   3. 顶部大图 (去投影，保持现状)
-   ========================================================= */
-body .notion-page-cover-wrapper,
-body .notion-page-cover,
-body .notion-block-image img {
-    box-shadow: none !important;
-}
+body .notion-aside-table-of-contents-header { display: none !important; }
+body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left: 0 !important; }
+body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
+body .notion-table-of-contents-item a { text-decoration: none !important; color: var(--fg-color-3) !important; transition: color 0.2s ease; }
+body .notion-table-of-contents-item a:hover { color: var(--notion-blue) !important; }
+body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; }
