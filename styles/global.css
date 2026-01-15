@@ -1,5 +1,5 @@
 /* =================================================================
-   CDO 终极修复：博客列表 (Page Cover 专用版)
+   CDO 终极样式：博客列表 (封面图专用 · 强力显示版)
    ================================================================= */
 
 :root {
@@ -60,7 +60,7 @@ body .notion-gallery-grid a {
    4. 右侧图片容器 (Targeting Cover)
    ========================================================= */
 
-/* 选中第一个 DIV (在 Page Cover 模式下，这就是封面容器) */
+/* 选中第一个 DIV (封面容器) */
 body .notion-gallery-grid a > div:first-child {
     width: 200px !important;
     height: 134px !important;
@@ -73,20 +73,26 @@ body .notion-gallery-grid a > div:first-child {
     overflow: hidden !important;
     position: relative !important;
     
-    /* 给没有封面的文章一个默认背景色，防止白框 */
-    background: #f7f7f5 !important; 
+    /* 默认灰色背景（只有图没加载出来时才看得到） */
+    background: #f0f0f0 !important; 
+    z-index: 1 !important;
 }
 
-/* 确保图片显示 */
-body .notion-gallery-grid a img {
+/* 🌟 核心修复：穿透所有 Next.js 的包裹层，强制显示图片 */
+body .notion-gallery-grid a > div:first-child img,
+body .notion-gallery-grid a > div:first-child span {
     display: block !important;
-    height: 100% !important;
     width: 100% !important;
+    height: 100% !important;
     object-fit: cover !important;
+    
     position: absolute !important;
-    top: 0; left: 0;
+    top: 0 !important;
+    left: 0 !important;
+    
     opacity: 1 !important;
     visibility: visible !important;
+    z-index: 2 !important; /* 确保图片盖在灰色背景上面 */
 }
 
 /* =========================================================
