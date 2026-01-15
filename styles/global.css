@@ -1,11 +1,9 @@
 /* =================================================================
-   CDO 终极样式：博客列表 (完美圆角修复版)
+   CDO 终极样式 V5.0：博客列表 + 固定按钮 + 美化滚动条
    ================================================================= */
 
 :root {
-  /* 🌟 全局统一小圆角变量 */
   --notion-corner-radius: 4px !important;
-  
   --fg-color: #37352f;
   --fg-color-1: rgba(55, 53, 47, 0.6);
   --bg-color: #fff;
@@ -15,32 +13,77 @@
 body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 .notion-frame { padding: 0 !important; }
 
-/* 2. 按钮复位 */
-.custom-header-buttons {
-    position: absolute !important; top: 16px; right: 20px; z-index: 1000;
-    display: flex; align-items: center;
+/* =========================================================
+   🌟 新增：滚动条美化 (隐形/极简风格)
+   ========================================================= */
+/* Webkit 浏览器 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 6px;  /* 变得很细 */
+    height: 6px;
 }
-.toggle-dark-mode { padding: 8px; cursor: pointer; }
+::-webkit-scrollbar-track {
+    background: transparent; /* 轨道完全透明 */
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15); /* 滑块平时很淡 */
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3); /* 鼠标放上去变深一点 */
+}
+/* 暗黑模式下的滚动条 */
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
 
 /* =========================================================
-   3. 核心布局：画廊 -> 列表
+   🌟 修改：按钮固定 (Fixed Positioning)
    ========================================================= */
+.custom-header-buttons {
+    /* 从 absolute 改为 fixed，让它锁死在屏幕右上角 */
+    position: fixed !important; 
+    top: 20px; 
+    right: 20px; 
+    z-index: 9999 !important; /* 层级设高，防止被图片遮挡 */
+    display: flex; 
+    align-items: center;
+    
+    /*以此保证按钮背景在有内容滚动经过时依然清晰可见(可选)*/
+    /* background: rgba(255,255,255,0.8); */
+    /* backdrop-filter: blur(4px); */
+    /* border-radius: 20px; */
+}
 
-/* 强制网格变成单列 */
+.toggle-dark-mode { 
+    padding: 8px; 
+    cursor: pointer; 
+    transition: transform 0.2s ease;
+}
+.toggle-dark-mode:hover {
+    transform: scale(1.1); /* 鼠标悬停稍微放大 */
+}
+
+
+/* =========================================================
+   3. 核心布局：画廊 -> 列表 (保持不变)
+   ========================================================= */
 body .notion-gallery-grid {
     display: flex !important;
     flex-direction: column !important;
     gap: 0 !important;
     border-top: none !important;
     padding-top: 20px !important;
-    max-width: 100% !important;
+    max-width: 100% !important; /* 撑满宽度 */
     margin: 0 auto !important;
 }
 
 /* 改造卡片：左文右图 */
 body .notion-gallery-grid a {
     display: flex !important;
-    flex-direction: row-reverse !important; /* 图片右，文字左 */
+    flex-direction: row-reverse !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
     
@@ -51,8 +94,6 @@ body .notion-gallery-grid a {
     box-shadow: none !important;
     border: none !important;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
-    
-    /* 🌟 卡片本身不需要圆角，因为是透明的 */
     border-radius: 0 !important;
     background: transparent !important;
     
@@ -61,10 +102,8 @@ body .notion-gallery-grid a {
 }
 
 /* =========================================================
-   4. 右侧图片容器 (统一小圆角 4px)
+   4. 右侧图片容器 (小圆角 4px + 无投影)
    ========================================================= */
-
-/* 选中第一个 DIV (封面容器) */
 body .notion-gallery-grid a > div:first-child {
     width: 200px !important;
     height: 134px !important;
@@ -73,43 +112,32 @@ body .notion-gallery-grid a > div:first-child {
     margin-left: 32px !important;
     margin-bottom: 0 !important;
     
-    /* 🌟 这里改为 4px (之前是 6px) */
     border-radius: 4px !important;
-
-    /* 👇👇👇 请在这里补上这一句！👇👇👇 */
-    box-shadow: none !important;  /* 彻底杀掉图片的投影 */
-    /* 👆👆👆 补上这一句！👆👆👆 */
-  
+    box-shadow: none !important; /* 去投影 */
+    
     overflow: hidden !important;
     position: relative !important;
-    
-    /* 默认背景色 */
     background: #f0f0f0 !important; 
     z-index: 1 !important;
 }
 
-/* 强制图片显示并统一圆角 */
 body .notion-gallery-grid a > div:first-child img,
 body .notion-gallery-grid a > div:first-child span {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    
-    /* 🌟 图片本身也强制 4px 圆角 */
-    border-radius: 4px !important;
-    
+    border-radius: 4px !important; /* 图片圆角 */
     opacity: 1 !important;
     visibility: visible !important;
     z-index: 2 !important;
 }
 
 /* =========================================================
-   5. 左侧文字 (Content)
+   5. 左侧文字 (字体调整 + 布局)
    ========================================================= */
 body .notion-gallery-grid a > div:last-child {
     flex: 1 !important;
@@ -120,9 +148,9 @@ body .notion-gallery-grid a > div:last-child {
     border: none !important;
 }
 
-/* 标题 */
+/* 标题 - 已调小 */
 body .notion-gallery-grid .notion-property-title {
-    font-size: 0.9rem !important;
+    font-size: 0.9rem !important; /* 字体改小了 */
     font-weight: 700 !important;
     line-height: 1.3 !important;
     margin-bottom: 8px !important;
