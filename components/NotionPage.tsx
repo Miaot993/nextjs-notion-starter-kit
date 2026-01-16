@@ -232,7 +232,7 @@ export function NotionPage({
   const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
 
-  const showTableOfContents = true 
+  const showTableOfContents = true
   const minTableOfContentsItems = 1
 
   const pageAside = React.useMemo(
@@ -271,22 +271,22 @@ export function NotionPage({
 
   const socialImage = mapImageUrl(
     getPageProperty<string>('Social Image', block, recordMap) ||
-      (block as PageBlock).format?.page_cover ||
-      config.defaultPageCover,
+    (block as PageBlock).format?.page_cover ||
+    config.defaultPageCover,
     block
   )
 
   const socialDescription =
     getPageProperty<string>('Description', block, recordMap) ||
     config.description
-  
+
   // VIP 逻辑
   const currentBlockId = (keys[0] || '').replace(/-/g, '')
   // @ts-ignore
   const parentId = (block?.parent_id || '').replace(/-/g, '')
   const LOCKED_PAGE_IDS = [
-    '2e8a2b748e4d80e58739d25aa9a83220', 
-    '2e8a2b748e4d80faa623eea08adf2f66', 
+    '2e8a2b748e4d80e58739d25aa9a83220',
+    '2e8a2b748e4d80faa623eea08adf2f66',
   ]
   const shouldLock = LOCKED_PAGE_IDS.includes(currentBlockId) || LOCKED_PAGE_IDS.includes(parentId)
 
