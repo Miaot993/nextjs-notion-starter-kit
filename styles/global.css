@@ -1,166 +1,326 @@
 /* =================================================================
-   CDO 终极样式 V5.0：博客列表 + 固定按钮 + 美化滚动条
+   CDO 终极样式 V7.0：Medium 高级感配色 + 暗黑模式完美修复 + 全结构优化
    ================================================================= */
 
 :root {
-  --notion-corner-radius: 4px !important;
-  --fg-color: #37352f;
-  --fg-color-1: rgba(55, 53, 47, 0.6);
-  --bg-color: #fff;
-}
+    /* 📝 全局圆角设置 */
+    --notion-corner-radius: 4px !important;
 
-/* 1. 基础重置 */
-body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
-.notion-frame { padding: 0 !important; }
+    /* 📝 Medium 风格基础色板 (亮色模式默认) */
+    --medium-title: #292929;
+    /* 柔和的炭黑，不刺眼 */
+    --medium-text: #757575;
+    /* 经典的阅读灰 */
+    --medium-meta: rgba(117, 117, 117, 0.6);
+    --medium-border: rgba(0, 0, 0, 0.08);
+    /* 极细分割线 */
 
-/* =========================================================
-   🌟 新增：滚动条美化 (隐形/极简风格)
-   ========================================================= */
-/* Webkit 浏览器 (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-    width: 6px;  /* 变得很细 */
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: transparent; /* 轨道完全透明 */
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15); /* 滑块平时很淡 */
-    border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3); /* 鼠标放上去变深一点 */
-}
-/* 暗黑模式下的滚动条 */
-[data-theme='dark'] ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-}
-[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
+    /* 🌙 暗黑模式全局背景色 (加强版) */
+    [data-theme='dark'],
+    body.dark-mode {
+        /* 1. 设置变量 (Medium 风格推荐深炭灰) */
+        --bg-color: #191919 !important;
+        --fg-color: rgba(255, 255, 255, 0.9) !important;
 
-/* =========================================================
-   🌟 核心修复：按钮位置、形状、颜色、手机适配
-   ========================================================= */
-.custom-header-buttons {
-    position: fixed !important; 
-    /* 1. 在这里修改位置 */
-    top: 7px;    
-    right: 7px; 
-    
-    z-index: 9999 !important;
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-}
+        /* 2. ⚡️ 核心：强制把颜色刷到所有可能的容器上 */
+        background-color: #191919 !important;
+    }
 
-.toggle-dark-mode { 
-    /* 2. 强制正圆：锁死宽高 + 居中 */
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 40px !important;  /* 锁死宽度 */
-    height: 40px !important; /* 锁死高度 */
-    font-size: 20px !important; /* 🌟 新增：让里面的太阳/月亮图标也变大 */
-    border-radius: 50% !important; /* 绝对正圆 */
-    padding: 0 !important;   /* 去掉 padding 防止变椭圆 */
-    
-    cursor: pointer; 
-    transition: transform 0.2s ease, background 0.2s ease;
-    
-    /* 3. 手机端优化：去掉点击时的系统灰块 */
-    -webkit-tap-highlight-color: transparent !important;
-    outline: none !important;
-    user-select: none;
-    
-    /* 默认颜色 (亮色模式) */
-    color: #37352f !important;
-    background: transparent !important;
-}
-
-/* 💻 电脑端悬停效果 (只在有鼠标的设备上生效，防止手机端卡住) */
-@media (hover: hover) {
-    .toggle-dark-mode:hover {
-        background: rgba(0,0,0,0.05) !important; /* 极淡灰色圆底 */
-        transform: scale(1.1);
+    /* 3. 补刀：防止 notion-app 容器不听话 */
+    body.dark-mode .notion-app,
+    body.dark-mode .notion-frame,
+    body.dark-mode .notion {
+        background-color: #191919 !important;
     }
 }
 
-/* 📱 手机端点击反馈 (按下去缩小一点点，但不显示背景色) */
+/* 0. 基础重置 */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+
+.notion-frame {
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   1. 顶部大图 (Page Cover) - 穿透圆角修复
+   ========================================================= */
+.notion-page-cover-wrapper {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    z-index: 1 !important;
+}
+
+.notion-page-cover-wrapper>span {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.notion-page-cover-wrapper img,
+img.notion-page-cover {
+    border-radius: 8px !important;
+}
+
+
+/* =========================================================
+   2. 面包屑导航 (Breadcrumbs) - Flex 防换行版
+   ========================================================= */
+.breadcrumbs-limit {
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+}
+
+.breadcrumbs-limit .breadcrumb {
+    display: flex !important;
+    align-items: center !important;
+    max-width: 200px !important;
+    /* 电脑端宽度限制 */
+    padding: 6px 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+
+.breadcrumbs-limit .breadcrumb .notion-page-icon-inline {
+    flex-shrink: 0 !important;
+    margin-right: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.breadcrumbs-limit .breadcrumb .title {
+    flex: 1 !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* 📱 面包屑手机适配 */
+@media (max-width: 768px) {
+    .breadcrumbs-limit .breadcrumb {
+        max-width: 150px !important;
+    }
+}
+
+
+/* =========================================================
+   3. 亮暗切换按钮 (Medium 风格微调)
+   ========================================================= */
+.custom-header-buttons {
+    position: fixed !important;
+    top: 10px;
+    /* 稍微往下挪一点，呼吸感更好 */
+    right: 10px;
+    z-index: 9999 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-dark-mode {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px !important;
+    /* 稍微调小一点，更精致 */
+    height: 36px !important;
+    font-size: 18px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    user-select: none;
+
+    /* 默认颜色 */
+    color: var(--medium-title) !important;
+    background: transparent !important;
+}
+
+@media (hover: hover) {
+    .toggle-dark-mode:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+        transform: scale(1.05);
+    }
+}
+
 .toggle-dark-mode:active {
     transform: scale(0.9);
     background: transparent !important;
 }
 
-/* 🌙 暗黑模式适配 (修复月亮不白的问题) */
-/* 只要 body 有 dark-mode 类，里面的图标就强制变白 */
+/* 🌙 按钮暗黑模式适配 */
 body.dark-mode .toggle-dark-mode {
-    color: #ffffff !important; 
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* 暗黑模式下的悬停 (仅电脑) */
 @media (hover: hover) {
     body.dark-mode .toggle-dark-mode:hover {
-        background: rgba(255,255,255,0.1) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
     }
 }
 
+
 /* =========================================================
-   3. 核心布局：画廊 -> 列表 (保持不变)
+   4. 滚动条美化 (隐形极简)
    ========================================================= */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* 更细 */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+
+/* =========================================================
+   5. 博客列表 (Medium 风格核心重构)
+   ========================================================= */
+
+/* --- 5.1 列表容器 --- */
 body .notion-gallery-grid {
     display: flex !important;
     flex-direction: column !important;
     gap: 0 !important;
     border-top: none !important;
     padding-top: 20px !important;
-    max-width: 100% !important; /* 撑满宽度 */
+    max-width: 100% !important;
     margin: 0 auto !important;
 }
 
-/* 改造卡片：左文右图 */
+/* --- 5.2 单个卡片 (Link) --- */
 body .notion-gallery-grid a {
     display: flex !important;
     flex-direction: row-reverse !important;
+    /* 图右文左 */
     align-items: flex-start !important;
     justify-content: space-between !important;
-    
+
     width: 100% !important;
     height: auto !important;
     min-height: 140px !important;
-    
+
     box-shadow: none !important;
     border: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    /* 👇 亮色模式分割线 */
+    border-bottom: 1px solid var(--medium-border) !important;
     border-radius: 0 !important;
     background: transparent !important;
-    
-    padding: 24px 0 !important;
+
+    padding: 28px 0 !important;
+    /* 增加间距，提升呼吸感 */
     text-decoration: none !important;
+    transition: opacity 0.2s ease;
 }
 
-/* =========================================================
-   4. 右侧图片容器 (小圆角 4px + 无投影)
-   ========================================================= */
-body .notion-gallery-grid a > div:first-child {
+/* 鼠标悬停微交互 */
+body .notion-gallery-grid a:hover {
+    opacity: 0.85;
+}
+
+
+/* --- 5.3 标题 (Title) - 限制 2 行 --- */
+body .notion-gallery-grid .notion-property-title {
+    font-size: 0.8rem !important;
+    /* 稍微加大一点，增加权重 */
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    /* 增加行高，阅读更舒适 */
+    margin-bottom: 8px !important;
+
+    /* 👇 亮色模式文字颜色 */
+    color: var(--medium-title) !important;
+
+    display: block !important;
+}
+
+/* 标题内部文字截断 */
+body .notion-gallery-grid .notion-property-title .notion-page-title-text {
+    white-space: normal !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden !important;
+}
+
+
+/* --- 5.4 摘要 (Description) - 限制 2 行 --- */
+body .notion-gallery-grid .notion-property-text {
+    font-size: 0.95rem !important;
+
+    /* 👇 亮色模式摘要颜色 */
+    color: var(--medium-text) !important;
+
+    line-height: 1.6 !important;
+    /* Medium 标志性的大行高 */
+    margin-bottom: 12px !important;
+
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal !important;
+}
+
+
+/* --- 5.5 日期与作者 (Meta) --- */
+body .notion-gallery-grid .notion-property-date,
+body .notion-gallery-grid .notion-property-person {
+    font-size: 0.85rem !important;
+    color: var(--medium-meta) !important;
+    margin-top: auto !important;
+}
+
+
+/* --- 5.6 右侧图片容器 --- */
+body .notion-gallery-grid a>div:first-child {
     width: 200px !important;
+    /* 保持你的设置 */
     height: 134px !important;
-    
     flex-shrink: 0 !important;
-    margin-left: 32px !important;
+    margin-left: 40px !important;
+    /* 加大图文间距，更显高级 */
     margin-bottom: 0 !important;
-    
-    border-radius: 4px !important;
-    box-shadow: none !important; /* 去投影 */
-    
+
+    border-radius: 8px !important;
+    box-shadow: none !important;
     overflow: hidden !important;
     position: relative !important;
-    background: #f0f0f0 !important; 
+    background: rgba(0, 0, 0, 0.03) !important;
+    /* 图片加载前的占位色 */
     z-index: 1 !important;
 }
 
-body .notion-gallery-grid a > div:first-child img,
-body .notion-gallery-grid a > div:first-child span {
+/* 图片铺满 */
+body .notion-gallery-grid a>div:first-child img,
+body .notion-gallery-grid a>div:first-child span {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
@@ -168,100 +328,295 @@ body .notion-gallery-grid a > div:first-child span {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    border-radius: 4px !important; /* 图片圆角 */
-    opacity: 1 !important;
-    visibility: visible !important;
-    z-index: 2 !important;
+    border-radius: 8px !important;
 }
 
 /* =========================================================
-   5. 左侧文字 (字体调整 + 布局)
+   6. 🌟 右侧悬浮目录 (Table of Contents) - V10.1 修复间距失效版
    ========================================================= */
-body .notion-gallery-grid a > div:last-child {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
+
+/* 1. 隐藏多余标题 */
+body .notion-aside-table-of-contents-header {
+    display: none !important;
+}
+
+/* 2. ⚡️ 父容器留白 (保持不变) */
+body .notion-aside {
+    padding-left: 60px !important;
+    flex-shrink: 0 !important;
+}
+
+/* 3. 目录容器 */
+body .notion-aside-table-of-contents {
+    position: sticky !important;
+    top: 80px !important;
+    width: 240px !important;
+    max-width: 240px !important;
+    max-height: calc(100vh - 150px) !important;
+    overflow-y: auto !important;
+
+    /* 位置 */
+    margin: 0 !important;
+    margin-left: auto !important;
+    margin-right: 100px !important;
+    margin-top: 4px !important;
+
+    /* 内部 */
     padding: 0 !important;
+
+    background: transparent !important;
+    box-shadow: none !important;
     border: none !important;
+    z-index: 10 !important;
+    scrollbar-width: none;
 }
 
-/* 标题 - 已调小 */
-body .notion-gallery-grid .notion-property-title {
-    font-size: 0.9rem !important; /* 字体改小了 */
-    font-weight: 700 !important;
-    line-height: 1.3 !important;
-    margin-bottom: 8px !important;
-    color: #111 !important;
-    white-space: normal !important;
+body .notion-aside-table-of-contents::-webkit-scrollbar {
+    display: none;
 }
 
-/* 摘要 */
-body .notion-gallery-grid .notion-property-text {
-    font-size: 1rem !important;
-    color: rgba(0,0,0,0.6) !important;
-    line-height: 1.5 !important;
-    margin-bottom: 12px !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    white-space: normal !important;
+
+/* 4. ⚡️⚡️ 核心修复：选择器改对了！现在是直接控制 Link 本身 */
+/* 以前是 .notion-table-of-contents-item a (错的)，现在改为 a.notion-table-of-contents-item (对的) */
+body a.notion-table-of-contents-item {
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+
+    font-size: 14px !important;
+    /* 字体稍微加大一点点 */
+    color: var(--medium-text) !important;
+
+    /* 👇👇👇 这里控制间距，现在绝对会生效了！ 👇👇👇 */
+    padding: 8px 12px !important;
+    /* 上下留白，把每一行撑高 */
+    margin-bottom: 4px !important;
+    /* 每一行之间再加一点物理缝隙 */
+    line-height: 1.2 !important;
+
+    transition: all 0.2s ease;
+    overflow: hidden !important;
 }
 
-/* 日期 */
-body .notion-gallery-grid .notion-property-date,
-body .notion-gallery-grid .notion-property-person {
-    font-size: 0.85rem !important;
-    color: rgba(0,0,0,0.4) !important;
-    margin-top: auto !important;
-}
 
-/* 隐藏图标 */
-body .notion-property-icon { display: none !important; }
-
-/* 手机适配 */
-@media (max-width: 768px) {
-    body .notion-gallery-grid a { flex-direction: column-reverse !important; }
-    body .notion-gallery-grid a > div:first-child {
-        width: 100% !important; height: 180px !important; margin-left: 0 !important; margin-bottom: 16px !important;
-    }
-}
-
-/* 杂项 */
-body .notion-aside-table-of-contents-header { display: none !important; }
-body .notion-aside-table-of-contents { margin-top: 8px !important; padding-left: 0 !important; }
-body .notion-table-of-contents-item { list-style: none !important; padding: 2px 0 !important; }
-body .notion-table-of-contents-item a { text-decoration: none !important; color: var(--fg-color-1) !important; }
-body .notion-page-cover-wrapper, body .notion-page-cover, body .notion-block-image img { box-shadow: none !important; }
-
-/* =========================================================
-   修正：顶部面包屑过长自动变成省略号 (最终修正版)
-   ========================================================= */
-
-/* 1. 锁定我们刚加的壳子里的面包屑元素 */
-/* 注意：这里改成了 .notion-nav-breadcrumb，这是库的真实类名 */
-.breadcrumbs-limit .notion-nav-breadcrumb {
-    max-width: 140px !important;   /* ⚡️ 在这里控制电脑端字数长度 */
-    
-    display: inline-block !important; /* 必须加这个，否则 max-width 无效 */
+/* 5. 文字截断 */
+body .notion-table-of-contents-item-body {
+    display: block !important;
+    width: 100% !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    vertical-align: bottom !important;
-    margin-bottom: 0 !important;
+    border-bottom: none !important;
 }
 
-/* 2. 也是为了防止里面的 span 撑开宽度，强制让里面的文字也服从 */
-.breadcrumbs-limit .notion-nav-breadcrumb span {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+
+/* 6. 鼠标悬停 */
+body a.notion-table-of-contents-item:hover {
+    color: var(--medium-title) !important;
+    /* 👇👇👇 新增：强制去掉悬停时的灰色背景 👇👇👇 */
+    background: transparent !important;
 }
 
-/* 3. 手机端更加严格 */
-@media (max-width: 768px) {
-    .breadcrumbs-limit .notion-nav-breadcrumb {
-        max-width: 80px !important; /* 手机上只允许显示 4-5 个字 */
+body a.notion-table-of-contents-item:hover .notion-table-of-contents-item-body {
+    color: var(--medium-title) !important;
+}
+
+
+/* 7. 当前高亮 (Active) - 极简杂志风 */
+body .notion-table-of-contents-active-item {
+    color: var(--medium-title) !important;
+    /* 深黑 */
+    font-weight: 700 !important;
+    /* 加粗 */
+    opacity: 1 !important;
+
+    /* ❌ 彻底去除所有线条和背景 */
+    margin-left: 0 !important;
+    border: none !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    background: transparent !important;
+}
+
+/* 🌙 暗黑模式适配 */
+body.dark-mode .notion-aside-table-of-contents {
+    background: transparent !important;
+}
+
+body.dark-mode a.notion-table-of-contents-item {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-mode a.notion-table-of-contents-item:hover .notion-table-of-contents-item-body,
+body.dark-mode .notion-table-of-contents-active-item {
+    color: #fff !important;
+}
+
+body.dark-mode .notion-table-of-contents-active-item {
+    border: none !important;
+}
+
+/* 📱 窄屏自动隐藏 */
+@media (max-width: 1200px) {
+    body .notion-aside-table-of-contents {
+        display: none !important;
     }
+
+    body .notion-aside {
+        display: none !important;
+    }
+}
+
+/* =========================================================
+   7. 🏠 首页特殊处理 (Home Page) - 自动隐藏目录
+   ========================================================= */
+
+/* 逻辑：如果页面包含 "博客列表网格(.notion-gallery-grid)"，说明是首页 */
+
+/* 1. 隐藏首页的目录组件 */
+body:has(.notion-gallery-grid) .notion-aside-table-of-contents {
+    display: none !important;
+}
+
+/* 2. 隐藏首页的侧边栏容器 (连同留白一起去掉) */
+/* 这样首页的内容就能自动居中或占满，不会被右侧空白挤压 */
+body:has(.notion-gallery-grid) .notion-aside {
+    display: none !important;
+    padding-left: 0 !important;
+    width: 0 !important;
+}
+
+
+/* =========================================================
+   --- 杂项隐藏 ---
+   ========================================================= */
+body .notion-property-icon {
+    display: none !important;
+}
+
+body .notion-aside-table-of-contents-header {
+    display: none !important;
+}
+
+body .notion-aside-table-of-contents {
+    margin-top: 8px !important;
+    padding-left: 0 !important;
+}
+
+body .notion-table-of-contents-item {
+    list-style: none !important;
+    padding: 2px 0 !important;
+}
+
+body .notion-table-of-contents-item a {
+    text-decoration: none !important;
+    color: var(--fg-color-1) !important;
+}
+
+body .notion-page-cover-wrapper,
+body .notion-page-cover,
+body .notion-block-image img {
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   🌙 核心：暗黑模式专用修复 (Dark Mode Fixes)
+   ========================================================= */
+
+/* 1. 标题变白 (带一点点柔和) */
+body.dark-mode .notion-gallery-grid .notion-property-title {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 2. 摘要变银灰 */
+body.dark-mode .notion-gallery-grid .notion-property-text {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* 3. 日期变暗灰 */
+body.dark-mode .notion-gallery-grid .notion-property-date,
+body.dark-mode .notion-gallery-grid .notion-property-person {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 4. 分割线变微弱的白光 */
+body.dark-mode .notion-gallery-grid a {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 5. 图片占位色变深 */
+body.dark-mode .notion-gallery-grid a>div:first-child {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+
+/* =========================================================
+   📱 手机端适配 (Mobile) - V7.1 精准留白版
+   ========================================================= */
+@media (max-width: 768px) {
+
+    /* 0. 顶部大图强制变直角 (手机端特有) */
+    .notion-page-cover-wrapper,
+    .notion-page-cover-wrapper>span,
+    .notion-page-cover-wrapper img,
+    img.notion-page-cover {
+        border-radius: 0px !important;
+        /* ⚡️ 手机端强制 0px */
+    }
+
+    /* 1. 复原框架：让 Breadcrumbs 和 Cover 能碰到屏幕边缘 */
+    body .notion-frame {
+        padding: 0 !important;
+        /* 👈 关键：外层不加 padding */
+    }
+
+    /* 2. ⚡️ 核心：只给“正文主体”加呼吸感 */
+    /* 这里的 main.notion-page 包裹了标题、正文和博客列表，但在封面图下方 */
+    body main.notion-page {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
+
+    /* 3. 博客列表布局调整 */
+    body .notion-gallery-grid a {
+        flex-direction: column-reverse !important;
+    }
+
+    /* 4. 列表图片：因为外层 main 加了 16px，图片会自动缩进，
+       如果你希望图片也是通栏(全宽)的，把 width 改成 100% + margin 负值。
+       但通常卡片缩进一点更好看，保持现状即可。 */
+    body .notion-gallery-grid a>div:first-child {
+        width: 100% !important;
+        height: 180px !important;
+        margin-left: 0 !important;
+        margin-bottom: 16px !important;
+    }
+
+    /* 5. 字体适配 */
+    body .notion-gallery-grid .notion-property-title {
+        font-size: 1rem !important;
+    }
+
+    /* 6. 面包屑字数限制 */
+    .breadcrumbs-limit .breadcrumb {
+        max-width: 160px !important;
+    }
+}
+
+/* =========================================================
+   🐛 修复：Page 图标被封面图遮挡问题
+   ========================================================= */
+
+/* 选中所有类型的页面顶部大图标 (Emoji 或 图片) */
+.notion-page-icon-hero,
+.notion-page-icon-image,
+.notion-page-icon-span {
+    z-index: 5 !important;
+    /* ⚡️ 核心：必须比封面的 1 大 */
+    position: relative !important;
+    /* 确保 z-index 生效 */
+    opacity: 1 !important;
 }
