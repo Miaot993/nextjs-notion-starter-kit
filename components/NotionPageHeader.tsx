@@ -47,8 +47,8 @@ export function NotionPageHeader({
     <header className='notion-header'>
       <div className='notion-nav-header'>
         {/* 👇👇👇 修改开始：加了一个 div 包裹，专门用来控制字数 👇👇👇 */}
-        <div className='breadcrumbs-limit'>
-          <Breadcrumbs block={block} rootOnly={true} />
+        <div className='breadcrumbs-limit' suppressHydrationWarning={true}>   {/* 👈 必须改回 div */}
+          <Breadcrumbs block={block} rootOnly={false} />
         </div>
         {/* 👆👆👆 修改结束 👆👆👆 */}
 
@@ -83,7 +83,7 @@ export function NotionPageHeader({
             })
             .filter(Boolean)}
 
-          <ToggleThemeButton />
+
 
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
